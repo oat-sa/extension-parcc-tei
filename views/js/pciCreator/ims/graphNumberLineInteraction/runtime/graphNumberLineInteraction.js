@@ -35,6 +35,7 @@ define([
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/open-arrow.svg',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/open-close.svg',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/open-open.svg',
+    'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/x-mark-circle.svg',
     'css!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/css/graphNumberLineInteraction'
 ], function(
     $,
@@ -53,7 +54,8 @@ define([
     closeOpenSvg,
     openArrowSvg,
     openCloseSvg,
-    openOpenSvg
+    openOpenSvg,
+    xMarkCircle
 ){
     'use strict';
     var graphNumberLineInteraction;
@@ -304,7 +306,8 @@ define([
                 arrowOpen:      arrowOpenSvg,
                 arrowClose:     arrowCloseSvg,
                 openArrow:      openArrowSvg,
-                closeArrow:     closeArrowSvg
+                closeArrow:     closeArrowSvg,
+                xMarkCircle:    xMarkCircle
             };
 
             // create base markup
@@ -439,7 +442,7 @@ define([
                 //active the button & interval editing
                 activate(uid);
 
-            }).on('click', '.intervals-selected .deleter', function(){
+            }).on('click', '.intervals-selected .remove', function(){
 
                 var $deleter = $(this),
                     $parent = $deleter.parent('.interval'),
