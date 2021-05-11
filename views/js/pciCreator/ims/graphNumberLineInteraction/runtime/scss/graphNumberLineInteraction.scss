@@ -3,6 +3,7 @@
 $buttonColor: #fff;
 $infoButtonBgColor: #266d9c;
 $successButtonBgColor: #269c5d;
+$removeColor: #3e7da7;
 
 .graphNumberLineInteraction {
     width: 100%;
@@ -67,12 +68,15 @@ $successButtonBgColor: #269c5d;
                 padding: 4px;
                 margin-right: 10px;
 
-                .deleter {
+                .remove {
                     cursor: pointer;
+                    text-decoration: none;
+                    color: $removeColor;
 
-                    &:before {
-                        font-size: 1.25rem;
-                        margin-right: 3px;
+                    .icon svg {
+                        width: 12px;
+                        margin-top: -5px;
+                        fill: $removeColor;
                     }
                 }
 
@@ -101,7 +105,7 @@ $successButtonBgColor: #269c5d;
 
     // button style had to been copied to do not depend on platform
     .btn {
-        color: #fff;
+        color: $buttonColor;
         border-radius: 3px;
         border: none;
         font-size: 14px;
