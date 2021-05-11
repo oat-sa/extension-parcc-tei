@@ -23,7 +23,6 @@ define([
     'taoQtiItem/portableLib/lodash',
     'taoQtiItem/portableLib/OAT/util/event',
     'taoQtiItem/portableLib/OAT/scale.raphael',
-    'parccTei/portableLib/pointFactory',
     'parccTei/portableLib/axisFactory',
     'parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/libs/intervalFactory',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/markup/markup.html',
@@ -43,7 +42,6 @@ define([
     _,
     event,
     scaleRaphael,
-    pointFactory,
     axisFactory,
     IntervalFactory,
     markup,
@@ -312,7 +310,7 @@ define([
 
             // create base markup
             $container.append(Object.keys(icons).reduce(function(memo, iconName) {
-                return memo.replace(new RegExp('{{{' + iconName +'}}}', 'g'), icons[iconName]);
+                return memo.replace(new RegExp('{{{' + iconName + '}}}', 'g'), icons[iconName]);
             }, markup));
 
             //expose the reset() method
