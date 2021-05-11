@@ -1,3 +1,9 @@
+@import "inc/bootstrap";
+
+$buttonColor: #fff;
+$infoButtonBgColor: #266d9c;
+$successButtonBgColor: #269c5d;
+
 .graphNumberLineInteraction {
     width: 100%;
     padding: 30px 30px 50px;
@@ -89,6 +95,32 @@
 
         .intervals-row {
             margin-bottom: 2px;
+        }
+    }
+
+
+    // button style had to been copied to do not depend on platform
+    .btn {
+        color: #fff;
+        border-radius: 3px;
+        border: none;
+        font-size: 14px;
+        line-height: 34px;
+        outline: none;
+        cursor: pointer;
+
+        &:hover {
+            opacity: .85;
+        }
+
+        &.btn-info {
+            background-color: $infoButtonBgColor;
+            text-shadow: 1px 1px 0 blacken($infoButtonBgColor, .2);
+        }
+
+        &.btn-success {
+            background-color: $successButtonBgColor;
+            text-shadow: 1px 1px 0 blacken($successButtonBgColor, .2);
         }
     }
 }
