@@ -26,7 +26,7 @@ define([
     'parccTei/portableLib/pointFactory',
     'parccTei/portableLib/axisFactory',
     'parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/libs/intervalFactory',
-    'tpl!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/tpl/markup',
+    'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/markup/markup.html',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/arrow-close.svg',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/arrow-open.svg',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/close-arrow.svg',
@@ -45,7 +45,7 @@ define([
     pointFactory,
     axisFactory,
     IntervalFactory,
-    markupTpl,
+    markup,
     arrowCloseSvg,
     arrowOpenSvg,
     closeArrowSvg,
@@ -56,7 +56,6 @@ define([
     openOpenSvg
 ){
     'use strict';
-
     var graphNumberLineInteraction;
 
     var _typeIdentifier = 'graphNumberLineInteraction';
@@ -248,6 +247,7 @@ define([
             var paper,
                 axis,
                 intervalFactory,
+                icons,
                 _this = this;
 
             /**
@@ -296,8 +296,7 @@ define([
                 intervals = {};
             }
 
-            // create base markup
-            $container.append(markupTpl({
+            icons = {
                 closeClose:     closeCloseSvg,
                 closeOpen:      closeOpenSvg,
                 openClose:      openCloseSvg,
@@ -306,7 +305,12 @@ define([
                 arrowClose:     arrowCloseSvg,
                 openArrow:      openArrowSvg,
                 closeArrow:     closeArrowSvg
-            }));
+            };
+
+            // create base markup
+            $container.append(Object.keys(icons).reduce(function(memo, iconName) {
+                return memo.replace(new RegExp('{{{' + iconName +'}}}', 'g'), icons[iconName]);
+            }, markup));
 
             //expose the reset() method
             this.reset = reset;
