@@ -19,8 +19,6 @@
     <input name="max" value="{{max}}" data-increment="1" type="text" />
     <label for="unitSubdivision" class="spinner">{{__ "Small Mark"}}</label>
     <input name="unitSubDivision" value="{{unitSubDivision}}" data-increment="1" data-min="1" type="text">
-    <label for="snapTo" class="spinner">{{__ "Snap to Int."}}</label>
-    <input name="snapTo" value="{{snapTo}}" data-increment="1" data-min="1" type="text">
 </div>
 <hr/>
 <div class="panel" id="creator-graphFunctionInteraction-available-graphs">
