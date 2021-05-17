@@ -23,14 +23,14 @@ final class Version202105110950013025_parccTei extends AbstractMigration
         $registry = (new IMSPciModel())->getRegistry();
         if ($registry->has('graphNumberLineInteraction')) {
             /** @noinspection PhpUnhandledExceptionInspection */
-            $registry->removeAllVersions('graphNumberLineInteraction');
+            // $registry->removeAllVersions('graphNumberLineInteraction');
         }
 
         $this->addReport(
             $this->propagate(
                 new RegisterPciGraphNumberLineInteraction()
             )(
-                ['1.1.0']
+                ['2.0.0']
             )
         );
     }
