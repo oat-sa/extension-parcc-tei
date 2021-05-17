@@ -7,7 +7,6 @@ namespace oat\parccTei\migrations;
 use Doctrine\DBAL\Schema\Schema;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use Doctrine\Migrations\Exception\IrreversibleMigration;
-use oat\qtiItemPci\model\IMSPciModel;
 use oat\parccTei\scripts\install\RegisterPciGraphNumberLineInteraction;
 
 final class Version202105110950013025_parccTei extends AbstractMigration
@@ -20,12 +19,6 @@ final class Version202105110950013025_parccTei extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $registry = (new IMSPciModel())->getRegistry();
-        if ($registry->has('graphNumberLineInteraction')) {
-            /** @noinspection PhpUnhandledExceptionInspection */
-            // $registry->removeAllVersions('graphNumberLineInteraction');
-        }
-
         $this->addReport(
             $this->propagate(
                 new RegisterPciGraphNumberLineInteraction()
