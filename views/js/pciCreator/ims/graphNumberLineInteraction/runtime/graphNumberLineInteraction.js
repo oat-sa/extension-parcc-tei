@@ -23,10 +23,9 @@ define([
     'taoQtiItem/portableLib/lodash',
     'taoQtiItem/portableLib/OAT/util/event',
     'taoQtiItem/portableLib/OAT/scale.raphael',
-    'parccTei/portableLib/pointFactory',
     'parccTei/portableLib/axisFactory',
     'parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/libs/intervalFactory',
-    'tpl!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/tpl/markup',
+    'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/markup/markup.html',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/arrow-close.svg',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/arrow-open.svg',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/close-arrow.svg',
@@ -35,6 +34,7 @@ define([
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/open-arrow.svg',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/open-close.svg',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/open-open.svg',
+    'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/x-mark-circle.svg',
     'css!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/css/graphNumberLineInteraction'
 ], function(
     $,
@@ -42,10 +42,9 @@ define([
     _,
     event,
     scaleRaphael,
-    pointFactory,
     axisFactory,
     IntervalFactory,
-    markupTpl,
+    markup,
     arrowCloseSvg,
     arrowOpenSvg,
     closeArrowSvg,
@@ -53,10 +52,10 @@ define([
     closeOpenSvg,
     openArrowSvg,
     openCloseSvg,
-    openOpenSvg
+    openOpenSvg,
+    xMarkCircle
 ){
     'use strict';
-
     var graphNumberLineInteraction;
 
     var _typeIdentifier = 'graphNumberLineInteraction';
@@ -134,8 +133,13 @@ define([
          */
         getInstance : function getInstance(dom, config, state){
             var response = config.boundTo;
+            var responseIdentifier = Object.getOwnPropertyNames(response).pop();
             //simply mapped to existing TAO PCI API
-            this.initialize(Object.getOwnPropertyNames(response).pop(), dom, config.properties);
+            this.initialize(responseIdentifier, dom, config.properties);
+
+            var responseValue = response[responseIdentifier];
+
+            this.setResponse(responseValue);
             this.setSerializedState(state);
 
             //tell the rendering engine that I am ready
@@ -188,18 +192,14 @@ define([
                     record : [
                         {
                             name : 'lineTypes',
-                            base : {
-                                list : {
-                                    'string' : types
-                                }
+                            list : {
+                                'string' : types
                             }
                         },
                         {
                             name : 'values',
-                            base : {
-                                list : {
-                                    pair : values
-                                }
+                            list : {
+                                pair : values
                             }
                         }
                     ]
@@ -252,6 +252,7 @@ define([
             var paper,
                 axis,
                 intervalFactory,
+                icons,
                 _this = this;
 
             /**
@@ -300,8 +301,7 @@ define([
                 intervals = {};
             }
 
-            // create base markup
-            $container.append(markupTpl({
+            icons = {
                 closeClose:     closeCloseSvg,
                 closeOpen:      closeOpenSvg,
                 openClose:      openCloseSvg,
@@ -309,8 +309,14 @@ define([
                 arrowOpen:      arrowOpenSvg,
                 arrowClose:     arrowCloseSvg,
                 openArrow:      openArrowSvg,
-                closeArrow:     closeArrowSvg
-            }));
+                closeArrow:     closeArrowSvg,
+                xMarkCircle:    xMarkCircle
+            };
+
+            // create base markup
+            $container.append(Object.keys(icons).reduce(function(memo, iconName) {
+                return memo.replace(new RegExp('{{{' + iconName + '}}}', 'g'), icons[iconName]);
+            }, markup));
 
             //expose the reset() method
             this.reset = reset;
@@ -439,7 +445,7 @@ define([
                 //active the button & interval editing
                 activate(uid);
 
-            }).on('click', '.intervals-selected .deleter', function(){
+            }).on('click', '.intervals-selected .remove', function(){
 
                 var $deleter = $(this),
                     $parent = $deleter.parent('.interval'),
@@ -524,18 +530,16 @@ define([
                 response.record[0] &&
                 response.record[1] &&
                 response.record[0].name === 'lineTypes' &&
-                response.record[0].base &&
-                response.record[0].base.list &&
-                _.isArray(response.record[0].base.list.string) &&
+                response.record[0].list &&
+                _.isArray(response.record[0].list.string) &&
                 response.record[1].name === 'values' &&
-                response.record[1].base &&
-                response.record[1].base.list &&
-                _.isArray(response.record[1].base.list.pair) &&
-                response.record[0].base.list.length === response.record[1].base.list.length
+                response.record[1].list &&
+                _.isArray(response.record[1].list.pair) &&
+                response.record[0].list.length === response.record[1].list.length
                 ){
 
-                lineTypes = response.record[0].base.list.string;
-                values = response.record[1].base.list.pair;
+                lineTypes = response.record[0].list.string;
+                values = response.record[1].list.pair;
 
                 for(i = 0; i < lineTypes.length; i++){
                     point = values[i];

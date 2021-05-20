@@ -69,9 +69,7 @@ define([
             identifier : interaction.attr('responseIdentifier'),
             min : interaction.prop('min'),
             max : interaction.prop('max'),
-            unitSubDivision : interaction.prop('unitSubDivision'),
-            snapTo : interaction.prop('snapTo'),
-            increment : interaction.prop('increment')
+            unitSubDivision : interaction.prop('unitSubDivision')
         }));
 
         //init form javascript
