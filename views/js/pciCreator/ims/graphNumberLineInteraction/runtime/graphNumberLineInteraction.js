@@ -133,8 +133,13 @@ define([
          */
         getInstance : function getInstance(dom, config, state){
             var response = config.boundTo;
+            var responseIdentifier = Object.getOwnPropertyNames(response).pop();
             //simply mapped to existing TAO PCI API
-            this.initialize(Object.getOwnPropertyNames(response).pop(), dom, config.properties);
+            this.initialize(responseIdentifier, dom, config.properties);
+
+            var responseValue = response[responseIdentifier];
+
+            this.setResponse(responseValue);
             this.setSerializedState(state);
 
             //tell the rendering engine that I am ready
