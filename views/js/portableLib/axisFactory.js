@@ -182,9 +182,7 @@ define(['taoQtiItem/portableLib/lodash'], function(_){
                             path += 'L' + subPosition + ',' + (config.top + config.subDivisionWidth);
                             subPosition += subDivisionSize;
 
-                            if(j !== config.unitSubDivision){
-                                steps.push(subPosition);
-                            }
+                            steps.push(subPosition);
                         }
                     }
 
