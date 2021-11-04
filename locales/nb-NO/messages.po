@@ -1,0 +1,297 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 2021.10\n"
+"PO-Revision-Date: 2021-10-27T13:08:47\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: nb-NO\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: nb-NO\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid " Display lines"
+msgstr " Vis linjer"
+
+msgid " Display points"
+msgstr " Vis punkter"
+
+msgid " points Glow"
+msgstr " points Glow"
+
+msgid "Add a static point"
+msgstr "Legg til et statisk punkt"
+
+msgid "allow points on border"
+msgstr "tillate poeng på grensen"
+
+msgid "Allow solution set"
+msgstr "Tillat løsning"
+
+msgid "Available Graphs"
+msgstr "Tilgjengelige grafer"
+
+msgid "Available Intervals"
+msgstr "Tilgjengelige intervaller"
+
+msgid "by increment of"
+msgstr "ved økning av"
+
+msgid "Close"
+msgstr "Lukk"
+
+msgid "Color selector"
+msgstr "Fargevelger"
+
+msgid "Default Partition"
+msgstr "Standard oppdeling"
+
+msgid "Define equation based response processing."
+msgstr "Definer ligningsbasert responsprosessering."
+
+msgid "Define which graphs are availabe for the test taker to use."
+msgstr "Definer hvilke grafer som er tilgjengelig for eleven."
+
+msgid "Define which interval types are availabe for the test taker to use."
+msgstr "Definer hvilke intervalltyper som er tilgjengelige for eleven."
+
+msgid "Delete this static point"
+msgstr "Slett dette statiske punktet"
+
+msgid "Display Title"
+msgstr "Vis tittel"
+
+msgid "Draggable"
+msgstr "Dragbar"
+
+msgid "Edit options"
+msgstr "Rediger alternativene"
+
+msgid "End Point"
+msgstr "Sluttpunkt"
+
+msgid "Equation"
+msgstr "Likning"
+
+msgid "Equation Response Processing Wizard"
+msgstr "Veiviser for behandling av ligningssvar"
+
+msgid "from"
+msgstr "fra"
+
+msgid "Graduation"
+msgstr "Eksamen"
+
+msgid "Graph Appearance"
+msgstr "Grafutseende"
+
+msgid "Graph Color"
+msgstr "Farge på graf"
+
+msgid "Graph properties"
+msgstr "Egenskaper for graf"
+
+msgid "Graph type"
+msgstr "Type graf"
+
+msgid "height"
+msgstr "høyde"
+
+msgid "inner line weight"
+msgstr "indre linje vekt"
+
+msgid "Interval"
+msgstr "Interval"
+
+msgid "label"
+msgstr "markør"
+
+msgid "Label Color"
+msgstr "Markør farge"
+
+msgid "Label font size"
+msgstr "Markør skriftstørrelse"
+
+msgid "Label font weight"
+msgstr "Markør skrifttyngde"
+
+msgid "Line"
+msgstr "Linje"
+
+msgid "Line color"
+msgstr "Linjefarge"
+
+msgid "Line name"
+msgstr "Linjetittel"
+
+msgid "Line style"
+msgstr "Linjestil"
+
+msgid "Line style toggle"
+msgstr "Linjestil påknapp"
+
+msgid "Line thickness"
+msgstr "Linjetykkelse"
+
+msgid "Max number of points"
+msgstr "Maks antall poeng"
+
+msgid "Max. Segments"
+msgstr "Maks. Segmenter"
+
+msgid "Maximum number of segments allowed."
+msgstr "Maksimalt antall segmenter tillatt."
+
+msgid "Maximum of Points"
+msgstr "Maksimum poeng"
+
+msgid "Min. Segments"
+msgstr "Min. Segmenter"
+
+msgid "Mininum number of segments allowed."
+msgstr "Mininum antall segmenter tillatt."
+
+msgid "Outline"
+msgstr "Omriss"
+
+msgid "Outline Thickness"
+msgstr "Tykkelse på omriss"
+
+msgid "Outline Thickness Description"
+msgstr "Beskrivelse av omrisstykkelse"
+
+msgid "Pie Chart Colors"
+msgstr "Farger på sektordiagram"
+
+msgid "Please enter the equation"
+msgstr "Skriv inn ligningen"
+
+msgid "Point color"
+msgstr "Punktfarge"
+
+msgid "Point Color"
+msgstr "Punktfarge"
+
+msgid "Point name"
+msgstr "Punktnavn"
+
+msgid "Point Radius"
+msgstr "Punktradius"
+
+msgid "Point radius"
+msgstr "Punktradius"
+
+msgid "Point set name"
+msgstr "Navn på punkt"
+
+msgid "Radius"
+msgstr "Radius"
+
+msgid "Radius Description"
+msgstr "Radius Beskrivelse"
+
+msgid "Required points"
+msgstr "Påkrevd punkt"
+
+msgid "Response identifier"
+msgstr "Svaridentifikator"
+
+msgid "Scatterplot"
+msgstr "Scatterplot"
+
+msgid "Score"
+msgstr "Poeng"
+
+msgid "Segment color"
+msgstr "Segmentfarge"
+
+msgid "Segment mode"
+msgstr "Segmentmodus"
+
+msgid "Segment name"
+msgstr "Segmentnavn"
+
+msgid "Segment style"
+msgstr "Segmentstil"
+
+msgid "Segment style toggle"
+msgstr "Segmentstil valg"
+
+msgid "Segment thickness"
+msgstr "Segmenttykkelse"
+
+msgid "Selected Partition"
+msgstr "Valgt del"
+
+msgid "Small Mark"
+msgstr "Lite merke"
+
+msgid "Snap to Int."
+msgstr "Klikk på Int"
+
+msgid "Solution set name"
+msgstr "Løsningssett"
+
+msgid "Some Property"
+msgstr "Noen egenskaper"
+
+msgid "Some Property Description"
+msgstr "Beskrivelse av noen egenskaper"
+
+msgid "Start point"
+msgstr "Startpunkt"
+
+msgid "Static points"
+msgstr "Statiske punkter"
+
+msgid "sub step (snapping)"
+msgstr "undertrinn"
+
+msgid "Switch to equation based scoring"
+msgstr "Bytt til ligningsbasert skåring"
+
+msgid "The equation to be match against the student response points."
+msgstr "Ligningen som skal samsvare med elevens svarpunkter."
+
+msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "Identifikatoren for valget. Denne identifikatoren må ikke brukes av andre svar- eller oppgavevariabler. En identifikator er en tegnrekke som må starte med en bokstav eller en understreking (\"_\") og bare inneholde bokstaver, understreker, bindestreker (\"-\"), punktum (\".\", Aka full-stop), sifre, kombinerttegn og forlengere."
+
+msgid "The identifier of your choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "Identifikatoren du valgte. Denne identifikatoren må ikke brukes av andre svar- eller oppgavevariabler. En identifikator er en tegnrekke som må starte med en bokstav eller en understreking (\"_\") og bare inneholde bokstaver, understreker, bindestreker (\"-\"), punktum (\".\", Aka full-stop), sifre, kombinerttegn og forlengere."
+
+msgid "The response processing will turn into qti custom mode using this equation to score this interaction. Subsequent changes need to be done in the global item custom response processing editor."
+msgstr "Responsprosesseringen blir tilpasset qti -modus ved hjelp av denne ligningen for å score denne interaksjonen. Senere endringer må gjøres i oppgaven...….."
+
+msgid "Thickness"
+msgstr "Tykkelse"
+
+msgid "title"
+msgstr "tittel"
+
+msgid "Title"
+msgstr "Tittel"
+
+msgid "to"
+msgstr "til"
+
+msgid "Type of Elements"
+msgstr "Type elementer"
+
+msgid "width"
+msgstr "bredde"
+
+msgid "X"
+msgstr "X"
+
+msgid "X axis"
+msgstr "X-akse"
+
+msgid "Y"
+msgstr "Y"
+
+msgid "Y axis"
+msgstr "Y-akse"
+
