@@ -107,16 +107,16 @@ msgid "Interval"
 msgstr "Interval"
 
 msgid "label"
-msgstr "markør"
+msgstr "navn"
 
 msgid "Label Color"
-msgstr "Markør farge"
+msgstr "Navn farge"
 
 msgid "Label font size"
-msgstr "Markør skriftstørrelse"
+msgstr "Navn skriftstørrelse"
 
 msgid "Label font weight"
-msgstr "Markør skrifttyngde"
+msgstr "Navn skrifttyngde"
 
 msgid "Line"
 msgstr "Linje"
@@ -230,7 +230,7 @@ msgid "Small Mark"
 msgstr "Lite merke"
 
 msgid "Snap to Int."
-msgstr "Klikk på Int"
+msgstr "Klikk på Int."
 
 msgid "Solution set name"
 msgstr "Løsningssett"
