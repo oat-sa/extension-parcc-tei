@@ -184,9 +184,12 @@ define([
          * @param {Object} [state] - the json serialized state object, returned by previous call to getStatus(), use to initialize an
          */
         getInstance : function getInstance(dom, config, state){
-            var response = config.boundTo;
+            var boundTo = config.boundTo;
+            var responseIdentifier = Object.keys(boundTo)[0];
+            var response = boundTo[responseIdentifier];
             //simply mapped to existing TAO PCI API
-            this.initialize(Object.getOwnPropertyNames(response).pop(), dom, config.properties, config.assetManager);
+            this.initialize(responseIdentifier, dom, config.properties);
+            this.setResponse(response);
             this.setSerializedState(state);
 
             //tell the rendering engine that I am ready
@@ -241,7 +244,8 @@ define([
         destroy : function(){
 
             var $container = $(this.dom);
-            $container.off().empty();
+            $container.off();
+            this.resetResponse();
         },
 
         /*********************************
