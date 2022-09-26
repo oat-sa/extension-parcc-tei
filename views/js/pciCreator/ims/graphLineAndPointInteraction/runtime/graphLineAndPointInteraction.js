@@ -145,8 +145,8 @@ define([
             _.isPlainObject(entry) &&
             _.isString(entry.name) &&
             entry.base &&
-            entry.base.list &&
-            _.isArray(entry.base.list.point));
+            entry.base.string &&
+            _.isArray(JSON.parse(entry.base.string)));
     }
 
     /**
@@ -157,7 +157,7 @@ define([
      * @returns {object}
      */
     function formatResponseElement(name, points){
-        if(_.isString(name), _.isArray(points)){
+        if(_.isString(name) && _.isArray(points)){
             //map the array of point to the object format {x, y}
             points = _.map(points, function(point){
                 return [point.x, point.y];
