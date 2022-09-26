@@ -164,7 +164,7 @@ define([
             });
             return {
                 name : name,
-                base : {list : {point : points}}
+                base : {string : JSON.stringify(points)}
             };
         }else{
             throw new Error('invalid arguments');
@@ -624,13 +624,14 @@ define([
             if(response && _.isArray(response.record)){
 
                 _.each(response.record, function(entry){
-                    var points, id;
+                    var points, id, pointsArray;
 
                     if(isValidRecordEntry(entry)){
 
                         id = entry.name;
+                        pointsArray = JSON.parse(entry.base.string);
 
-                        points = _.map(entry.base.list.point, function(point){
+                        points = _.map(pointsArray, function(point){
                             return {
                                 x : point[0],
                                 y : point[1]
