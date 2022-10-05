@@ -1,33 +1,34 @@
 {
-	"name": "oat-sa/extension-parcc-tei",
-		"description" : "",
-		"type" : "tao-extension",
-		"authors" : [
-		{
-			"name": "Open Assessment Technologies"
-		}],
-		"keywords" : [
-			"tao",
-		"computer-based-assessment"
-			],
-		"homepage" : "http://www.taotesting.com",
-		"license" : [
-			"PARCC"
-			],
-		"extra" : {
-			"tao-extension-name" : "parccTei"
-		},
-		"minimum-stability" : "dev",
-		"require": {
-			"oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-            "oat-sa/generis" : ">=14.0.0",
-            "oat-sa/extension-tao-xmledit-responseprocessing" : ">=2.0.0",
-            "oat-sa/extension-tao-itemqti-pci" : ">=7.0.0",
-            "oat-sa/extension-tao-itemqti" : ">=27.0.0"
-        },
-		"autoload" : {
-			"psr-4" : {
-				"oat\\parccTei\\" : ""
-			}
-		}
+    "name": "oat-sa/extension-parcc-tei",
+    "description": "",
+    "type": "tao-extension",
+    "authors": [
+        {
+            "name": "Open Assessment Technologies"
+        }
+    ],
+    "keywords": [
+        "tao",
+        "computer-based-assessment"
+    ],
+    "homepage": "http://www.taotesting.com",
+    "license": [
+        "PARCC"
+    ],
+    "extra": {
+        "tao-extension-name": "parccTei"
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
+        "oat-sa/generis": ">=15.22",
+        "oat-sa/extension-tao-xmledit-responseprocessing": ">=2.0.0",
+        "oat-sa/extension-tao-itemqti-pci": ">=7.0.0",
+        "oat-sa/extension-tao-itemqti": ">=27.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "oat\\parccTei\\": ""
+        }
+    }
 }
