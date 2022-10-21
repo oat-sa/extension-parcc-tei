@@ -185,7 +185,7 @@ define([
             if(_.isArray(rawResponse) && _.size(rawResponse)){
                 _.each(rawResponse, function(interval){
                     types.push(interval.type);
-                    values.push([interval.start, interval.end]);
+                    values.push([`${interval.start}`, `${interval.end}`]);
                 });
                 return {
                     record : [
@@ -491,7 +491,7 @@ define([
                 return response;
             };
 
-           /**
+            /**
             * Set the raw response to the interaction
             *
             * @param {Array} intervals
@@ -536,7 +536,7 @@ define([
                 response.record[1].base.list &&
                 _.isArray(response.record[1].base.list.pair) &&
                 response.record[0].base.list.length === response.record[1].base.list.length
-                ){
+            ) {
 
                 lineTypes = response.record[0].base.list.string;
                 values = response.record[1].base.list.pair;
@@ -545,8 +545,8 @@ define([
                     point = values[i];
                     rawResponse.push({
                         type : lineTypes[i],
-                        start : point[0],
-                        end : point[1]
+                        start : point[0] !== 'null' ? Number(point[0]) : null ,
+                        end : point[1] !== 'null' ? Number(point[1]) : null
                     });
                 }
 
@@ -557,7 +557,6 @@ define([
          * Remove the current response set in the interaction
          * The state may not be restored at this point.
          *
-         * @param {Object} interaction
          */
         resetResponse : function(){
             this.reset();
@@ -565,8 +564,7 @@ define([
         /**
          * Restore the state of the interaction from the serializedState.
          *
-         * @param {Object} interaction
-         * @param {Object} serializedState - json format
+         * @param {Object} state - json format
          */
         setSerializedState : function(state){
             this.setResponse(state);
@@ -575,7 +573,6 @@ define([
          * Get the current state of the interaction as a string.
          * It enables saving the state for later usage.
          *
-         * @param {Object} interaction
          * @returns {Object} json format
          */
         getSerializedState : function(){
