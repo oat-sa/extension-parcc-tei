@@ -185,7 +185,7 @@ define([
             if(_.isArray(rawResponse) && _.size(rawResponse)){
                 _.each(rawResponse, function(interval){
                     types.push(interval.type);
-                    values.push([`${interval.start}`, `${interval.end}`]);
+                    values.push([interval.start, interval.end]);
                 });
                 return {
                     record : [
@@ -543,8 +543,8 @@ define([
                     point = values[i];
                     rawResponse.push({
                         type : lineTypes[i],
-                        start : point[0] !== 'null' ? Number(point[0]) : null ,
-                        end : point[1] !== 'null' ? Number(point[1]) : null
+                        start : point[0],
+                        end : point[1]
                     });
                 }
 
