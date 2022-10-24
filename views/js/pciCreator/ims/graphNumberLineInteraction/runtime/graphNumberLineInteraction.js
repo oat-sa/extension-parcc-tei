@@ -200,9 +200,7 @@ define([
                         {
                             name : 'values',
                             base : {
-                                list : {
-                                    pair : values
-                                }
+                                string : JSON.stringify(values)
                             }
                         }
                     ]
@@ -533,13 +531,13 @@ define([
                 _.isArray(response.record[0].base.list.string) &&
                 response.record[1].name === 'values' &&
                 response.record[1].base &&
-                response.record[1].base.list &&
-                _.isArray(response.record[1].base.list.pair) &&
-                response.record[0].base.list.length === response.record[1].base.list.length
+                response.record[1].base.string &&
+                _.isArray(JSON.parse(response.record[1].base.string)) &&
+                response.record[0].base.list.length === JSON.parse(response.record[1].base.string).length
             ) {
 
                 lineTypes = response.record[0].base.list.string;
-                values = response.record[1].base.list.pair;
+                values = JSON.parse(response.record[1].base.string);
 
                 for(i = 0; i < lineTypes.length; i++){
                     point = values[i];
