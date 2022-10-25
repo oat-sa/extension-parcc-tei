@@ -191,10 +191,8 @@ define([
                     record : [
                         {
                             name : 'lineTypes',
-                            base : {
-                                list : {
-                                    'string' : types
-                                }
+                            list : {
+                                'string' : types
                             }
                         },
                         {
@@ -526,17 +524,16 @@ define([
                 response.record[0] &&
                 response.record[1] &&
                 response.record[0].name === 'lineTypes' &&
-                response.record[0].base &&
-                response.record[0].base.list &&
-                _.isArray(response.record[0].base.list.string) &&
+                response.record[0].list &&
+                _.isArray(response.record[0].list.string) &&
                 response.record[1].name === 'values' &&
                 response.record[1].base &&
                 response.record[1].base.string &&
                 _.isArray(JSON.parse(response.record[1].base.string)) &&
-                response.record[0].base.list.length === JSON.parse(response.record[1].base.string).length
+                response.record[0].list.string.length === JSON.parse(response.record[1].base.string).length
             ) {
 
-                lineTypes = response.record[0].base.list.string;
+                lineTypes = response.record[0].list.string;
                 values = JSON.parse(response.record[1].base.string);
 
                 for(i = 0; i < lineTypes.length; i++){
