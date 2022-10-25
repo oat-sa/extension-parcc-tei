@@ -52,7 +52,7 @@ final class Version202209140900513025_parccTei extends AbstractMigration
             $this->propagate(
                 new RegisterPciGraphNumberLineInteraction()
             )(
-                ['1.0.1']
+                ['2.0.0']
             )
         );
         $this->addReport(
