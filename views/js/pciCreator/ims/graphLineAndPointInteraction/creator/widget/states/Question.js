@@ -245,8 +245,8 @@ define([
                 interaction.triggerPci('gridchange', [interaction.getProperties()]);
             }
         };
-        var xAxisCallbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'xMin', 'xMax', options);
-        var yAxisCallbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'yMin', 'yMax', options);
+        var xAxisCallbacks = formElement.getMinMaxAttributeCallbacks('xMin', 'xMax', options);
+        var yAxisCallbacks = formElement.getMinMaxAttributeCallbacks('yMin', 'yMax', options);
         var changeCallbacks = {
             identifier : function(i, value){
                 response.id(value);

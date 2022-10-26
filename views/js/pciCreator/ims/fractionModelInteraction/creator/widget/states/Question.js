@@ -101,7 +101,7 @@ define([
         //init form javascript
         formElement.initWidget($form);
 
-        var partitionChangeCallbacks = formElement.getMinMaxAttributeCallbacks($form, 'partitionMin', 'partitionMax', {
+        var partitionChangeCallbacks = formElement.getMinMaxAttributeCallbacks('partitionMin', 'partitionMax', {
             allowNull : false,
             updateCardinality : false,
             attrMethodNames : {set : 'prop', remove : 'removeProp'},
