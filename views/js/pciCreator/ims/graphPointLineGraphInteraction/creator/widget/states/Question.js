@@ -200,8 +200,8 @@ define([
             }
         };
 
-        var xAxisCallbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'xStart', 'xEnd', options);
-        var yAxisCallbacks = formElement.getMinMaxAttributeCallbacks(this.widget.$form, 'yStart', 'yEnd', options);
+        var xAxisCallbacks = formElement.getMinMaxAttributeCallbacks('xStart', 'xEnd', options);
+        var yAxisCallbacks = formElement.getMinMaxAttributeCallbacks('yStart', 'yEnd', options);
         var changeCallbacks = {
             identifier : function(i, value){
                 response.id(value);

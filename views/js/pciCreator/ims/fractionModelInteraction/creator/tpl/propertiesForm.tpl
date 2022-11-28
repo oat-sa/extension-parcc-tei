@@ -1,9 +1,12 @@
 <div class="item-editor-color-picker">
     <h3>{{__ "Pie Chart Colors"}}</h3>
     <div class="color-picker-container sidebar-popup">
+        <div class="sidebar-popup-title">
+            <h3>{{__ "Color selector"}}</h3>
+            <a class="closer" href="#" data-close="#color-picker-container"></a>
+        </div>
         <div class="color-picker"></div>
         <input class="color-picker-input" type="text" value="#000000">
-        <a class="closer" href="#" data-close="#color-picker-container"></a>
     </div>
     <div class="panel">
         <label for="partitionColor">{{__ "Default Partition"}}</label>

@@ -145,8 +145,8 @@ define([
             _.isPlainObject(entry) &&
             _.isString(entry.name) &&
             entry.base &&
-            entry.base.list &&
-            _.isArray(entry.base.list.point));
+            entry.base.string &&
+            _.isArray(JSON.parse(entry.base.string)));
     }
 
     /**
@@ -157,14 +157,14 @@ define([
      * @returns {object}
      */
     function formatResponseElement(name, points){
-        if(_.isString(name), _.isArray(points)){
+        if(_.isString(name) && _.isArray(points)){
             //map the array of point to the object format {x, y}
             points = _.map(points, function(point){
                 return [point.x, point.y];
             });
             return {
                 name : name,
-                base : {list : {point : points}}
+                base : {string : JSON.stringify(points)}
             };
         }else{
             throw new Error('invalid arguments');
@@ -187,7 +187,9 @@ define([
          * @param {Object} [state] - the json serialized state object, returned by previous call to getStatus(), use to initialize an
          */
         getInstance : function getInstance(dom, config, state){
-            var response = config.boundTo;
+            var boundTo = config.boundTo;
+            var responseIdentifier = Object.keys(boundTo)[0];
+            var response = boundTo[responseIdentifier];
 
             // Parse the "graphs" property, which is given as a serialized JSON
             try {
@@ -195,7 +197,8 @@ define([
             } catch(e) { /* parsing failed */ }
 
             //simply mapped to existing TAO PCI API
-            this.initialize(Object.getOwnPropertyNames(response).pop(), dom, config.properties);
+            this.initialize(responseIdentifier, dom, config.properties);
+            this.setResponse(response);
             this.setSerializedState(state);
 
             //tell the rendering engine that I am ready
@@ -259,7 +262,9 @@ define([
          */
         destroy : function(){
             var $container = $(this.dom);
-            $container.off().empty();
+            $container.find('.shape-controls').off();
+            $container.off();
+            this.resetResponse();
         },
 
 
@@ -619,13 +624,14 @@ define([
             if(response && _.isArray(response.record)){
 
                 _.each(response.record, function(entry){
-                    var points, id;
+                    var points, id, pointsArray;
 
                     if(isValidRecordEntry(entry)){
 
                         id = entry.name;
+                        pointsArray = JSON.parse(entry.base.string);
 
-                        points = _.map(entry.base.list.point, function(point){
+                        points = _.map(pointsArray, function(point){
                             return {
                                 x : point[0],
                                 y : point[1]

@@ -133,9 +133,12 @@ define([
          * @param {Object} [state] - the json serialized state object, returned by previous call to getStatus(), use to initialize an
          */
         getInstance : function getInstance(dom, config, state){
-            var response = config.boundTo;
+            var boundTo = config.boundTo;
+            var responseIdentifier = Object.keys(boundTo)[0];
+            var response = boundTo[responseIdentifier];
             //simply mapped to existing TAO PCI API
-            this.initialize(Object.getOwnPropertyNames(response).pop(), dom, config.properties);
+            this.initialize(responseIdentifier, dom, config.properties);
+            this.setResponse(response);
             this.setSerializedState(state);
 
             //tell the rendering engine that I am ready
@@ -188,18 +191,14 @@ define([
                     record : [
                         {
                             name : 'lineTypes',
-                            base : {
-                                list : {
-                                    'string' : types
-                                }
+                            list : {
+                                'string' : types
                             }
                         },
                         {
                             name : 'values',
                             base : {
-                                list : {
-                                    pair : values
-                                }
+                                string : JSON.stringify(values)
                             }
                         }
                     ]
@@ -218,6 +217,7 @@ define([
         destroy : function(){
 
             var $container = $(this.dom);
+            this.resetResponse();
             $container.off().empty();
         },
 
@@ -487,7 +487,7 @@ define([
                 return response;
             };
 
-           /**
+            /**
             * Set the raw response to the interaction
             *
             * @param {Array} intervals
@@ -524,18 +524,17 @@ define([
                 response.record[0] &&
                 response.record[1] &&
                 response.record[0].name === 'lineTypes' &&
-                response.record[0].base &&
-                response.record[0].base.list &&
-                _.isArray(response.record[0].base.list.string) &&
+                response.record[0].list &&
+                _.isArray(response.record[0].list.string) &&
                 response.record[1].name === 'values' &&
                 response.record[1].base &&
-                response.record[1].base.list &&
-                _.isArray(response.record[1].base.list.pair) &&
-                response.record[0].base.list.length === response.record[1].base.list.length
-                ){
+                response.record[1].base.string &&
+                _.isArray(JSON.parse(response.record[1].base.string)) &&
+                response.record[0].list.string.length === JSON.parse(response.record[1].base.string).length
+            ) {
 
-                lineTypes = response.record[0].base.list.string;
-                values = response.record[1].base.list.pair;
+                lineTypes = response.record[0].list.string;
+                values = JSON.parse(response.record[1].base.string);
 
                 for(i = 0; i < lineTypes.length; i++){
                     point = values[i];
@@ -553,7 +552,6 @@ define([
          * Remove the current response set in the interaction
          * The state may not be restored at this point.
          *
-         * @param {Object} interaction
          */
         resetResponse : function(){
             this.reset();
@@ -561,8 +559,7 @@ define([
         /**
          * Restore the state of the interaction from the serializedState.
          *
-         * @param {Object} interaction
-         * @param {Object} serializedState - json format
+         * @param {Object} state - json format
          */
         setSerializedState : function(state){
             this.setResponse(state);
@@ -571,7 +568,6 @@ define([
          * Get the current state of the interaction as a string.
          * It enables saving the state for later usage.
          *
-         * @param {Object} interaction
          * @returns {Object} json format
          */
         getSerializedState : function(){
