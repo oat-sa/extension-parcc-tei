@@ -35,7 +35,8 @@ define([
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/open-arrow.svg',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/open-close.svg',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/open-open.svg',
-    'css!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/css/graphNumberLineInteraction'
+    'css!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/css/graphNumberLineInteraction',
+    'taoQtiItem/portableLib/handlebars'
 ], function(
     $,
     qtiCustomInteractionContext,
