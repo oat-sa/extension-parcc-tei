@@ -35,7 +35,7 @@ define([
         outlineThickness : 1
     };
 
-    var _typeIdentifier = 'graphLineAndPointInteraction';
+    var _typeIdentifier = 'fractionModelInteraction';
 
     function createCanvas($container, config){
 
