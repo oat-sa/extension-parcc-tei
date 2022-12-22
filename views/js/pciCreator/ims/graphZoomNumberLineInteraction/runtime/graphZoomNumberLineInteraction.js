@@ -34,6 +34,7 @@ define([
     var _typeIdentifier = 'graphZoomNumberLineInteraction';
 
     var graphZoomNumberLineInteraction = {
+        typeIdentifier : _typeIdentifier,
         /**
          * initialize the PCI object. As this object is cloned for each instance, using "this" is safe practice.
          * @param {DOMELement} dom - the dom element the PCI can use

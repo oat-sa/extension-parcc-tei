@@ -4,7 +4,7 @@
     "label": "IMS Fraction Model",
     "short": "Fractions",
     "description": "Select one or more fraction",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "author": "Thibault Milan",
     "email": "contact@taotesting.com",
     "response": {

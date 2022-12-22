@@ -26,6 +26,7 @@ define([
     'parccTei/portableLib/pointFactory',
     'parccTei/portableLib/axisFactory',
     'parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/libs/intervalFactory',
+    'taoQtiItem/portableLib/handlebars',
     'tpl!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/tpl/markup',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/arrow-close.svg',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/arrow-open.svg',
@@ -35,7 +36,7 @@ define([
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/open-arrow.svg',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/open-close.svg',
     'text!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/img/open-open.svg',
-    'css!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/css/graphNumberLineInteraction'
+    'css!parccTei/pciCreator/ims/graphNumberLineInteraction/runtime/css/graphNumberLineInteraction',
 ], function(
     $,
     qtiCustomInteractionContext,
@@ -45,6 +46,7 @@ define([
     pointFactory,
     axisFactory,
     IntervalFactory,
+    handlebars,
     markupTpl,
     arrowCloseSvg,
     arrowOpenSvg,
