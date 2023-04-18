@@ -1,10 +1,297 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO v2.7\n"
-"PO-Revision-Date: 2014-10-07T15:22:37\n"
+"Project-Id-Version: TAO 2023.05\n"
+"PO-Revision-Date: 2023-04-18T13:40:48\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-BR\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: pt-BR\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+msgid " Display lines"
+msgstr ""
+
+msgid " Display points"
+msgstr ""
+
+msgid " points Glow"
+msgstr ""
+
+msgid "Add a static point"
+msgstr ""
+
+msgid "allow points on border"
+msgstr ""
+
+msgid "Allow solution set"
+msgstr ""
+
+msgid "Available Graphs"
+msgstr ""
+
+msgid "Available Intervals"
+msgstr ""
+
+msgid "by increment of"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Color selector"
+msgstr ""
+
+msgid "Default Partition"
+msgstr ""
+
+msgid "Define equation based response processing."
+msgstr ""
+
+msgid "Define which graphs are availabe for the test taker to use."
+msgstr ""
+
+msgid "Define which interval types are availabe for the test taker to use."
+msgstr ""
+
+msgid "Delete this static point"
+msgstr ""
+
+msgid "Display Title"
+msgstr ""
+
+msgid "Draggable"
+msgstr ""
+
+msgid "Edit options"
+msgstr ""
+
+msgid "End Point"
+msgstr ""
+
+msgid "Equation"
+msgstr ""
+
+msgid "Equation Response Processing Wizard"
+msgstr ""
+
+msgid "from"
+msgstr ""
+
+msgid "Graduation"
+msgstr ""
+
+msgid "Graph Appearance"
+msgstr ""
+
+msgid "Graph Color"
+msgstr ""
+
+msgid "Graph properties"
+msgstr ""
+
+msgid "Graph type"
+msgstr ""
+
+msgid "height"
+msgstr ""
+
+msgid "inner line weight"
+msgstr ""
+
+msgid "Interval"
+msgstr ""
+
+msgid "label"
+msgstr ""
+
+msgid "Label Color"
+msgstr ""
+
+msgid "Label font size"
+msgstr ""
+
+msgid "Label font weight"
+msgstr ""
+
+msgid "Line"
+msgstr ""
+
+msgid "Line color"
+msgstr ""
+
+msgid "Line name"
+msgstr ""
+
+msgid "Line style"
+msgstr ""
+
+msgid "Line style toggle"
+msgstr ""
+
+msgid "Line thickness"
+msgstr ""
+
+msgid "Max number of points"
+msgstr ""
+
+msgid "Max. Segments"
+msgstr ""
+
+msgid "Maximum number of segments allowed."
+msgstr ""
+
+msgid "Maximum of Points"
+msgstr ""
+
+msgid "Min. Segments"
+msgstr ""
+
+msgid "Mininum number of segments allowed."
+msgstr ""
+
+msgid "Outline"
+msgstr ""
+
+msgid "Outline Thickness"
+msgstr ""
+
+msgid "Outline Thickness Description"
+msgstr ""
+
+msgid "Pie Chart Colors"
+msgstr ""
+
+msgid "Please enter the equation"
+msgstr ""
+
+msgid "Point color"
+msgstr ""
+
+msgid "Point Color"
+msgstr ""
+
+msgid "Point name"
+msgstr ""
+
+msgid "Point Radius"
+msgstr ""
+
+msgid "Point radius"
+msgstr ""
+
+msgid "Point set name"
+msgstr ""
+
+msgid "Radius"
+msgstr ""
+
+msgid "Radius Description"
+msgstr ""
+
+msgid "Required points"
+msgstr ""
+
+msgid "Response identifier"
+msgstr ""
+
+msgid "Scatterplot"
+msgstr ""
+
+msgid "Score"
+msgstr ""
+
+msgid "Segment color"
+msgstr ""
+
+msgid "Segment mode"
+msgstr ""
+
+msgid "Segment name"
+msgstr ""
+
+msgid "Segment style"
+msgstr ""
+
+msgid "Segment style toggle"
+msgstr ""
+
+msgid "Segment thickness"
+msgstr ""
+
+msgid "Selected Partition"
+msgstr ""
+
+msgid "Small Mark"
+msgstr ""
+
+msgid "Snap to Int."
+msgstr ""
+
+msgid "Solution set name"
+msgstr ""
+
+msgid "Some Property"
+msgstr ""
+
+msgid "Some Property Description"
+msgstr ""
+
+msgid "Start point"
+msgstr ""
+
+msgid "Static points"
+msgstr ""
+
+msgid "sub step (snapping)"
+msgstr ""
+
+msgid "Switch to equation based scoring"
+msgstr ""
+
+msgid "The equation to be match against the student response points."
+msgstr ""
+
+msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr ""
+
+msgid "The identifier of your choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr ""
+
+msgid "The response processing will turn into qti custom mode using this equation to score this interaction. Subsequent changes need to be done in the global item custom response processing editor."
+msgstr ""
+
+msgid "Thickness"
+msgstr ""
+
+msgid "title"
+msgstr ""
+
+msgid "Title"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "Type of Elements"
+msgstr ""
+
+msgid "width"
+msgstr ""
+
+msgid "X"
+msgstr ""
+
+msgid "X axis"
+msgstr ""
+
+msgid "Y"
+msgstr ""
+
+msgid "Y axis"
+msgstr ""
 
