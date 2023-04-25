@@ -1,0 +1,304 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-3x\n"
+"PO-Revision-Date: 2023-04-21 15:46\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: pt\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: pt-BR\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-3x\n"
+"X-Crowdin-Project-ID: 582145\n"
+"X-Crowdin-Language: pt-BR\n"
+"X-Crowdin-File: /parccTei/locales/pt-BR/messages.po\n"
+"X-Crowdin-File-ID: 1913\n"
+"Language-Team: Portuguese, Brazilian\n"
+
+msgid " Display lines"
+msgstr " Exibir linhas"
+
+msgid " Display points"
+msgstr " Exibir pontos"
+
+msgid " points Glow"
+msgstr " pontos de brilho"
+
+msgid "Add a static point"
+msgstr "Adicionar ponto estático"
+
+msgid "allow points on border"
+msgstr "permitir pontos na borda"
+
+msgid "Allow solution set"
+msgstr "Permitir conjunto de solução"
+
+msgid "Available Graphs"
+msgstr "Gráficos disponíveis"
+
+msgid "Available Intervals"
+msgstr "Intervalos disponíveis"
+
+msgid "by increment of"
+msgstr "por incremento de"
+
+msgid "Close"
+msgstr "Fechar"
+
+msgid "Color selector"
+msgstr "Seletor de cores"
+
+msgid "Default Partition"
+msgstr "Partição Padrão"
+
+msgid "Define equation based response processing."
+msgstr "Defina o processamento de resposta baseado na equação."
+
+msgid "Define which graphs are availabe for the test taker to use."
+msgstr "Define quais gráficos estão disponíveis para uso pelo candidato."
+
+msgid "Define which interval types are availabe for the test taker to use."
+msgstr "Defina quais tipos de intervalo estão disponíveis para o candidato usar."
+
+msgid "Delete this static point"
+msgstr "Excluir este ponto estático"
+
+msgid "Display Title"
+msgstr "Exibir Título"
+
+msgid "Draggable"
+msgstr "Arrastável"
+
+msgid "Edit options"
+msgstr "Editar opções"
+
+msgid "End Point"
+msgstr "Ponto final"
+
+msgid "Equation"
+msgstr "Equação"
+
+msgid "Equation Response Processing Wizard"
+msgstr "Assistente de Processamento de Equação"
+
+msgid "from"
+msgstr "de"
+
+msgid "Graduation"
+msgstr "Graduação"
+
+msgid "Graph Appearance"
+msgstr "Aparência Gráfica"
+
+msgid "Graph Color"
+msgstr "Cor de Gráfico"
+
+msgid "Graph properties"
+msgstr "Propriedade do gráfico"
+
+msgid "Graph type"
+msgstr "Tipo de gráfico"
+
+msgid "height"
+msgstr "altura"
+
+msgid "inner line weight"
+msgstr "peso interno na linha"
+
+msgid "Interval"
+msgstr "Intervalo"
+
+msgid "label"
+msgstr "título"
+
+msgid "Label Color"
+msgstr "Cor do rótulo"
+
+msgid "Label font size"
+msgstr "Tamanho de fonte do rótulo"
+
+msgid "Label font weight"
+msgstr "Tamanho do texto da etiqueta"
+
+msgid "Line"
+msgstr "Linha"
+
+msgid "Line color"
+msgstr "Cor da linha"
+
+msgid "Line name"
+msgstr "Nome da Linha"
+
+msgid "Line style"
+msgstr "Estilo da linha"
+
+msgid "Line style toggle"
+msgstr "Alternador estilo linha"
+
+msgid "Line thickness"
+msgstr "Espessura da linha"
+
+msgid "Max number of points"
+msgstr "Número máximo de pontos"
+
+msgid "Max. Segments"
+msgstr "Máx. Segmentos"
+
+msgid "Maximum number of segments allowed."
+msgstr "Número máximo de segmentos permitido."
+
+msgid "Maximum of Points"
+msgstr "Máximo de Pontos"
+
+msgid "Min. Segments"
+msgstr "Min. Segmentos"
+
+msgid "Mininum number of segments allowed."
+msgstr "Número mínimo de segmentos permitido."
+
+msgid "Outline"
+msgstr "Contorno"
+
+msgid "Outline Thickness"
+msgstr "Espessura do contorno"
+
+msgid "Outline Thickness Description"
+msgstr "Descrição da Espessura do Contorno"
+
+msgid "Pie Chart Colors"
+msgstr "Cores do Gráfico Pie"
+
+msgid "Please enter the equation"
+msgstr "Por favor, digite a equação"
+
+msgid "Point color"
+msgstr "Cor do ponto"
+
+msgid "Point Color"
+msgstr "Cor do ponto"
+
+msgid "Point name"
+msgstr "Nome do Ponto"
+
+msgid "Point Radius"
+msgstr "Raio do Ponto"
+
+msgid "Point radius"
+msgstr "Raio do ponto"
+
+msgid "Point set name"
+msgstr "Definir nome do ponto"
+
+msgid "Radius"
+msgstr "Raio"
+
+msgid "Radius Description"
+msgstr "Descrição do Raio"
+
+msgid "Required points"
+msgstr "Pontos necessários"
+
+msgid "Response identifier"
+msgstr "Identificador de Resposta"
+
+msgid "Scatterplot"
+msgstr "Espaçamento"
+
+msgid "Score"
+msgstr "Pontuação"
+
+msgid "Segment color"
+msgstr "Cor do segmento"
+
+msgid "Segment mode"
+msgstr "Modo de segmento"
+
+msgid "Segment name"
+msgstr "Nome do segmento"
+
+msgid "Segment style"
+msgstr "Estilo do segmento"
+
+msgid "Segment style toggle"
+msgstr "Alternador estilo de segmento"
+
+msgid "Segment thickness"
+msgstr "Espessura do segmento"
+
+msgid "Selected Partition"
+msgstr "Partição selecionada"
+
+msgid "Small Mark"
+msgstr "Marca pequena"
+
+msgid "Snap to Int."
+msgstr "Capturar para o Int."
+
+msgid "Solution set name"
+msgstr "Nome do conjunto de solução"
+
+msgid "Some Property"
+msgstr "Alguma propriedade"
+
+msgid "Some Property Description"
+msgstr "Alguma Descrição da Propriedade"
+
+msgid "Start point"
+msgstr "Ponto de partida"
+
+msgid "Static points"
+msgstr "Ponto estático"
+
+msgid "sub step (snapping)"
+msgstr "subpasso (snapping)"
+
+msgid "Switch to equation based scoring"
+msgstr "Mudar para pontuação baseada na equação"
+
+msgid "The equation to be match against the student response points."
+msgstr "A equação a ser combinada contra os pontos de resposta do aluno."
+
+msgid "The identifier of the choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "O identificador da escolha. Este identificador não deve ser usado por qualquer outra resposta ou variável do item. Um identificador é uma string de caracteres que devem começar com uma letra ou um underscore (\"_\") e conter apenas letras, sublinhados, hífens (\"-\"), período (\"., a.k.a. parada), Digits, CombiningChars e Excursos."
+
+msgid "The identifier of your choice. This identifier must not be used by any other response or item variable. An identifier is a string of characters that must start with a Letter or an underscore (\"_\") and contain only Letters, underscores, hyphens (\"-\"), period (\".\", a.k.a. full-stop), Digits, CombiningChars and Extenders."
+msgstr "O identificador de sua escolha. Este identificador não deve ser usado por qualquer outra resposta ou pela variável do item. Um identificador é uma string de caracteres que devem começar com uma letra ou um underscore (\"_\") e conter apenas letras, sublinhados, hífens (\"-\"), período (\"., a.k.a. parada), Digits, CombiningChars e Excursos."
+
+msgid "The response processing will turn into qti custom mode using this equation to score this interaction. Subsequent changes need to be done in the global item custom response processing editor."
+msgstr "O processamento de resposta será transformado em modo personalizado qti usando esta equação para marcar esta interação. Mudanças subsequentes precisam ser feitas no editor de processamento de resposta personalizada de item global."
+
+msgid "Thickness"
+msgstr "Espessura"
+
+msgid "title"
+msgstr "título"
+
+msgid "Title"
+msgstr "Título"
+
+msgid "to"
+msgstr "para"
+
+msgid "Type of Elements"
+msgstr "Tipo de Elementos"
+
+msgid "width"
+msgstr "largura"
+
+msgid "X"
+msgstr "X"
+
+msgid "X axis"
+msgstr "Eixo X"
+
+msgid "Y"
+msgstr "Y"
+
+msgid "Y axis"
+msgstr "Eixo Y"
+
