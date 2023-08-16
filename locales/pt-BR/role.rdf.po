@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-3x\n"
+"PO-Revision-Date: 2023-04-21 15:46\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: pt\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: pt-BR\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-3x\n"
+"X-Crowdin-Project-ID: 582145\n"
+"X-Crowdin-Language: pt-BR\n"
+"X-Crowdin-File: /parccTei/locales/pt-BR/role.rdf.po\n"
+"X-Crowdin-File-ID: 1911\n"
+"Language-Team: Portuguese, Brazilian\n"
+
+# http://www.tao.lu/Ontologies/generis.rdf#parccTeiManager
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "PARCC Student Tools Manager"
+msgstr "Gerenciador de Ferramentas do Aluno PARCC"
+
+# http://www.tao.lu/Ontologies/generis.rdf#parccTeiManager
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "PARCC Student Tools Manager Role"
+msgstr "Função Gestor de Ferramentas do Aluno PARCC"
+
