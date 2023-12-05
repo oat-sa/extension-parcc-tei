@@ -219,7 +219,7 @@ define([
             getState : function(){
 
                 var pts = [];
-                _.each(points, function(pt){
+                _.forEach(points, function(pt){
                     pts.push(pt.getCartesianCoord());
                 });
 
@@ -236,12 +236,12 @@ define([
 
                 //clear points and plot
                 clearPlot();
-                _.each(points, function(point){
+                _.forEach(points, function(point){
                     point.remove();
                 });
                 points = [];
                 if(state.points){
-                    _.each(state.points, function(point){
+                    _.forEach(state.points, function(point){
                         addPoint(point.x, point.y, true);
                     });
                 }

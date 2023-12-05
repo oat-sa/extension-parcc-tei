@@ -296,7 +296,7 @@ define([
         });
 
         //init the "more" buttons visibility:
-        _.each(_.keys(_defaultConfig), function(type){
+        _.forEach(_.keys(_defaultConfig), function(type){
             checkMoreTriggerAvailability(type);
         });
     };
@@ -314,7 +314,7 @@ define([
             graphs = interaction.properties['graphs'];
 
         if(graphs[type]){
-            _.each(graphs[type].elements, function(element){
+            _.forEach(graphs[type].elements, function(element){
                 //pass element and interaction by reference
                 var elementForm = buildElementForm(type, element, interaction);
                 elementForm.init();

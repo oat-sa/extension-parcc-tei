@@ -55,7 +55,7 @@ define([
 
         var graphSet = interaction.prop('graphs');
         graphSet = graphSet ? graphSet.split(',') : [];
-        _.each(graphSet, function(graph){
+        _.forEach(graphSet, function(graph){
             graphs[graph].checked = true;
         });
 

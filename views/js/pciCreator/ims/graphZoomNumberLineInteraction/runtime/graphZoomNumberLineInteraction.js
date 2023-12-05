@@ -162,14 +162,14 @@ define([
             function findRect(allRects, position){
 
                 var ret;
-                var positions = _.pluck(allRects, 'position');
+                var positions = _.map(allRects, 'position');
                 var stepWidth = positions[1] - positions[0];
 
-                _.each(allRects, function(rect){
+                _.some(allRects, function(rect){
                     var pos = parseInt(rect.position);
                     if(pos < position && position < pos + stepWidth){
                         ret = rect;
-                        return false;
+                        return true;
                     }
                 });
                 return ret;

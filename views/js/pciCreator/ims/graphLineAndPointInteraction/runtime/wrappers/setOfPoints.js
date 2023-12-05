@@ -159,7 +159,7 @@ define([
             getState : function(){
 
                 var pts = [];
-                _.each(points, function(pt){
+                _.forEach(points, function(pt){
                     pts.push(pt.getCartesianCoord());
                 });
 
@@ -175,7 +175,7 @@ define([
                 }
 
                 //clear points and plot
-                _.each(points, function(point){
+                _.forEach(points, function(point){
                     point.remove();
                 });
                 points = [];
@@ -185,12 +185,12 @@ define([
                     var i = 0,
                         maxPoints = config.maximumPoints;
 
-                    _.each(state.points, function(point){
+                    _.some(state.points, function(point){
                         if(i < maxPoints){
                             addPoint(point.x, point.y, true);
                             i++;
                         }else{
-                            return false;
+                            return true;
                         }
                     });
                 }

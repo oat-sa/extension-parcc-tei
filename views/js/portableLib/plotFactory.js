@@ -129,7 +129,7 @@ define(['taoQtiItem/portableLib/lodash', 'parccTei/portableLib/graphFunction'], 
         ];
 
         //add functions
-        _.each(availableFunctions, function(fnName){
+        _.forEach(availableFunctions, function(fnName){
             _this[PlotFactory.getPlotName(fnName)] = function(point1, point2, conf){
                 return _plot(fnName, point1, point2, conf);
             };

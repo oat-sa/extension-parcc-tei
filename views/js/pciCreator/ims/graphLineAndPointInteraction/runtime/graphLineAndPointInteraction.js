@@ -240,9 +240,9 @@ define([
             var rawResponse = this.getRawResponse();
             var response = {record : []};
 
-            _.each(rawResponse, function(element){
+            _.forEach(rawResponse, function(element){
                 if(element.type === 'solutionSet'){
-                    _.each(element.selections, function(selection){
+                    _.forEach(element.selections, function(selection){
                         response.record.push(formatResponseElement(element.id, selection));
                     });
                 }else{
@@ -355,11 +355,11 @@ define([
                 $controlArea.empty();
 
                 // Loop over all elements we have
-                _.each(options.graphs, function(graphType, typeName){
+                _.forEach(options.graphs, function(graphType, typeName){
 
                     var $template = $templates.find('.template-' + typeName);
 
-                    _.each(graphType.elements, function(elementConfig){
+                    _.forEach(graphType.elements, function(elementConfig){
 
                         var $buttonContainer = $template.children().first().clone();
                         var $button = $buttonContainer.children('.btn');
@@ -451,11 +451,11 @@ define([
                     var $solutionSet = $controlArea.find('.graph-solutionSet');
                     $(grid.getCanvas().canvas).on('drawn.lines removed.lines', function(){
                         var drawnLineExists = false;
-                        _.each(_.where(elements, {type : 'line'}), function(line){
+                        _.some(_.filter(elements, {type : 'line'}), function(line){
                             var drawnLine = line.getLine();
                             if(drawnLine){
                                 drawnLineExists = true;
-                                return false;
+                                return true;
                             }
                         });
                         if(drawnLineExists){
@@ -504,7 +504,7 @@ define([
                     elements : {}
                 };
 
-                _.each(elements, function(element){
+                _.forEach(elements, function(element){
                     state.elements[element.getId()] = element.getState();
                 });
 
@@ -549,7 +549,7 @@ define([
 
                 var response = [];
                 var states = [];
-                _.each(elements, function(element, id){
+                _.forEach(elements, function(element, id){
                     var res = {
                         id : id,
                         type : element.type
@@ -574,7 +574,7 @@ define([
              * @param {object} response
              */
             this.setRawResponse = function setRawResponse(response){
-                _.each(response, function(res){
+                _.forEach(response, function(res){
                     var state = {},
                         element = elements[res.id];
                     if(element){
@@ -623,7 +623,7 @@ define([
 
             if(response && _.isArray(response.record)){
 
-                _.each(response.record, function(entry){
+                _.forEach(response.record, function(entry){
                     var points, id, pointsArray;
 
                     if(isValidRecordEntry(entry)){
