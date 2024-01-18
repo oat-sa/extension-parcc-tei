@@ -165,11 +165,11 @@ define([
                 var positions = _.map(allRects, 'position');
                 var stepWidth = positions[1] - positions[0];
 
-                _.some(allRects, function(rect){
+                _.forEach(allRects, function(rect){
                     var pos = parseInt(rect.position);
                     if(pos < position && position < pos + stepWidth){
                         ret = rect;
-                        return true;
+                        return false;
                     }
                 });
                 return ret;

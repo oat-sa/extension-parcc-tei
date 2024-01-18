@@ -150,7 +150,7 @@ define([
      */
     function extractPointsFromString(stringPoints){
         var points = [];
-        _.some(stringPoints.split(/,/), function(strPoint){
+        _.forEach(stringPoints.split(/,/), function(strPoint){
             var pt = strPoint.trim().split(/\s+/);
             if(pt.length === 2){
                 points.push({
@@ -158,7 +158,7 @@ define([
                     y : pt[1]
                 });
             }else{
-                return true;//stop on first wrong point format
+                return false;//stop on first wrong point format
             }
         });
         return points;

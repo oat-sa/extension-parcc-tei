@@ -481,11 +481,11 @@ define([
                 if(state.selections && _.isArray(state.selections)){
                     _.forEach(state.selections, function(selection){
                         //try find the selection by coords:
-                        _.some(areas, function(area){
+                        _.forEach(areas, function(area){
                             if(_.isEqual(selection, area.closedPath)){
                                 //mark the area as selected
                                 selectArea(area);
-                                return true;
+                                return false;
                             }
                         });
                     });

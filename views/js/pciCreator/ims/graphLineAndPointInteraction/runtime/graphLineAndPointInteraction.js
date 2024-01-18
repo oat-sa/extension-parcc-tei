@@ -451,11 +451,11 @@ define([
                     var $solutionSet = $controlArea.find('.graph-solutionSet');
                     $(grid.getCanvas().canvas).on('drawn.lines removed.lines', function(){
                         var drawnLineExists = false;
-                        _.some(_.filter(elements, {type : 'line'}), function(line){
+                        _.forEach(_.filter(elements, {type : 'line'}), function(line){
                             var drawnLine = line.getLine();
                             if(drawnLine){
                                 drawnLineExists = true;
-                                return true;
+                                return false;
                             }
                         });
                         if(drawnLineExists){

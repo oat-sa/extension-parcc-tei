@@ -185,12 +185,12 @@ define([
                     var i = 0,
                         maxPoints = config.maximumPoints;
 
-                    _.some(state.points, function(point){
+                    _.forEach(state.points, function(point){
                         if(i < maxPoints){
                             addPoint(point.x, point.y, true);
                             i++;
                         }else{
-                            return true;
+                            return false;
                         }
                     });
                 }
