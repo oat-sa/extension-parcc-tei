@@ -450,7 +450,7 @@ define([
 
                 interval.obj.destroy();
                 $parent.remove();
-                intervals = _.omitBy(intervals, uid);
+                intervals = _.omit(intervals, uid);
 
                 if(_.size(intervals) <= selectionMax){
                     //re-enable buttons
