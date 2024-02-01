@@ -150,7 +150,7 @@ define([
      */
     function extractPointsFromString(stringPoints){
         var points = [];
-        _.each(stringPoints.split(/,/), function(strPoint){
+        _.forEach(stringPoints.split(/,/), function(strPoint){
             var pt = strPoint.trim().split(/\s+/);
             if(pt.length === 2){
                 points.push({
@@ -370,7 +370,7 @@ define([
 
                 //change conrtol buttons' classes
                 $shapeControls.children('button').removeClass('available');
-                _.each(graphs, function(graph){
+                _.forEach(graphs, function(graph){
                     $shapeControls.find('[name=' + graph + ']').addClass('available');
                 });
 
@@ -403,7 +403,7 @@ define([
             }
 
             function clearPoint(){
-                _.each(points, function(point){
+                _.forEach(points, function(point){
                     point.remove();
                 });
                 points = [];

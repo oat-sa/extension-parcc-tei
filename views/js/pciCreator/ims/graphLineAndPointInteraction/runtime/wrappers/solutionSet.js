@@ -273,7 +273,7 @@ define([
     function convertPath(grid, pathArray){
 
         var positionArray = [];
-        _.each(pathArray, function(coord){
+        _.forEach(pathArray, function(coord){
             var pos = grid.getPostionFromCartesian(coord[0], coord[1]);
             positionArray.push([pos.left, pos.top]);
         });
@@ -289,7 +289,7 @@ define([
             bounds = grid.getGridBounds();
 
         //get drawn lines and their intersectingLines
-        _.each(lines, function(line){
+        _.forEach(lines, function(line){
             var drawnLine = line.getLine();
             if(drawnLine){
                 intersectingLines.push(createIntersectingLine(drawnLine));
@@ -305,7 +305,7 @@ define([
         //get all intersection points (on graph)
         while(intersectingLines.length){
             var line1 = intersectingLines.pop();
-            _.each(intersectingLines, function(line2){
+            _.forEach(intersectingLines, function(line2){
                 var intersection = intersect(grid, line1, line2);
                 if(intersection && withinGrid(grid, intersection)){
 
@@ -320,7 +320,7 @@ define([
         }
 
         //calculate all shape coord
-        _.each(intersections, function(intersection){
+        _.forEach(intersections, function(intersection){
 
             var convertedPath,
                 closedPath = getClosedPath(intersection);
@@ -416,8 +416,8 @@ define([
         }
 
         function createSolutionSet(elements){
-            areas = drawSolutionSet(grid, _.where(elements, {type : 'line'}), config);
-            _.each(areas, function(area){
+            areas = drawSolutionSet(grid, _.filter(elements, {type : 'line'}), config);
+            _.forEach(areas, function(area){
                 set.push(area);
             });
         }
@@ -463,7 +463,7 @@ define([
             },
             getState : function(){
                 var selections = [];
-                _.each(areas, function(area){
+                _.forEach(areas, function(area){
                     if(area.selected){
                         selections.push(area.closedPath);
                     }
@@ -479,9 +479,9 @@ define([
                     setConfig(state.config);
                 }
                 if(state.selections && _.isArray(state.selections)){
-                    _.each(state.selections, function(selection){
+                    _.forEach(state.selections, function(selection){
                         //try find the selection by coords:
-                        _.each(areas, function(area){
+                        _.forEach(areas, function(area){
                             if(_.isEqual(selection, area.closedPath)){
                                 //mark the area as selected
                                 selectArea(area);

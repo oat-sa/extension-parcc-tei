@@ -84,7 +84,7 @@ define(['taoQtiItem/portableLib/lodash'], function(_){
     function drawPath(paper, points){
 
         var pathStr = '';
-        _.each(points, function(point){
+        _.forEach(points, function(point){
             if(pathStr){
                 pathStr += 'L';
             }else{
