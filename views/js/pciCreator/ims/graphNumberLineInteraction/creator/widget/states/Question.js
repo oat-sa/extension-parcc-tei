@@ -58,7 +58,7 @@ define([
 
         var intervalSet = interaction.prop('intervals');
         intervalSet = intervalSet ? intervalSet.split(',') : [];
-        _.each(intervalSet, function(type){
+        _.forEach(intervalSet, function(type){
             intervals[type].checked = true;
         });
 

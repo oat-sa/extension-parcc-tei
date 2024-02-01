@@ -185,7 +185,7 @@ define([
             var values = [];
             var rawResponse = this.getRawResponse();
             if(_.isArray(rawResponse) && _.size(rawResponse)){
-                _.each(rawResponse, function(interval){
+                _.forEach(rawResponse, function(interval){
                     types.push(interval.type);
                     values.push([interval.start, interval.end]);
                 });
@@ -294,7 +294,7 @@ define([
              * Reset the interaction to an empty axis
              */
             function reset(){
-                _.each(intervals, function(interval){
+                _.forEach(intervals, function(interval){
                     interval.obj.destroy();
                     interval.$control.remove();
                     $intervalsOverlay.hide();
@@ -478,7 +478,7 @@ define([
              */
             this.getRawResponse = function getRawResponse(){
                 var response = [];
-                _.each(intervals, function(interval){
+                _.forEach(intervals, function(interval){
                     var coords = interval.obj.getCoordinates();
                     response.push({
                         type : interval.type,
@@ -496,7 +496,7 @@ define([
             */
             this.setRawResponse = function(intervals){
                 if(_.isArray(intervals)){
-                    _.each(intervals, function(interval){
+                    _.forEach(intervals, function(interval){
 
                         var start = interval.start,
                             end = interval.end;
