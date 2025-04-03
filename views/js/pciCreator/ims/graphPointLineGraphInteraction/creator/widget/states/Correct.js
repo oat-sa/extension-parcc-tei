@@ -13,19 +13,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2025 Parcc, Inc.
+ * Copyright (c) 2025 (original work) Open Assessment Technologies SA;
  */
-
-
 define([
     'taoQtiItem/qtiCreator/widgets/states/factory',
-    'taoQtiItem/qtiCreator/widgets/interactions/customInteraction/states/states',
-    'graphPointLineGraphInteraction/creator/widget/states/Question',
-    'graphPointLineGraphInteraction/creator/widget/states/Answer',
-    'graphPointLineGraphInteraction/creator/widget/states/Custom',
-    'graphPointLineGraphInteraction/creator/widget/states/Correct'
-], function(factory, states){
+    'taoQtiItem/qtiCreator/widgets/states/Correct'
+], function(stateFactory, Correct){
     'use strict';
 
-    return factory.createBundle(states, arguments, ['map']);
+    var InteractionStateCorrect = stateFactory.create(
+        Correct,
+        function init() {},
+        function exit() {}
+    );
+
+    return InteractionStateCorrect;
 });

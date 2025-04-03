@@ -52,7 +52,7 @@ define([
     function initResponseDeclarationWidget(widget){
 
         var interaction = widget.element;
-        var responseDeclaration = interaction.getResponseDeclaration();
+        var responseDeclaration = restoreCorrectRp(interaction);
 
         //set correct response as defined in the model
         interaction.setResponse({
@@ -145,6 +145,7 @@ define([
         var rp = item.responseProcessing;
         rp.setProcessingType('templateDriven');
         responseDeclaration.template = 'http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct';
+        return responseDeclaration;
     }
 
     /**
