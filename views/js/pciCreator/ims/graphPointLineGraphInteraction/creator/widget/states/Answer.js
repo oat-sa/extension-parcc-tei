@@ -52,7 +52,7 @@ define([
     function initResponseDeclarationWidget(widget){
 
         var interaction = widget.element;
-        var responseDeclaration = restoreCorrectRp(interaction);
+        const responseDeclaration = restoreCorrectRp(interaction);
 
         //set correct response as defined in the model
         interaction.setResponse({
