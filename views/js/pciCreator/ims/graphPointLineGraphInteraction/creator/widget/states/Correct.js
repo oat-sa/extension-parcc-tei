@@ -21,7 +21,7 @@ define([
 ], function(stateFactory, Correct){
     'use strict';
 
-    var InteractionStateCorrect = stateFactory.create(
+    const InteractionStateCorrect = stateFactory.create(
         Correct,
         function init() {},
         function exit() {}
