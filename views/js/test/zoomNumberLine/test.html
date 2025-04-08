@@ -7,12 +7,11 @@
 
         <link rel="stylesheet" type="text/css" href="js/lib/qunit/qunit.css">
         <link rel="stylesheet" type="text/css" href="css/tao-main-style.css">
-        <script type="text/javascript" src="js/lib/require.js"></script>
         <script type="text/javascript" src="js/lib/qunit/qunit.js"></script>
-        <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flags="branchTracking" data-cover-only="graphZoomNumberLineInteraction.js"></script>
+        <script type="text/javascript" src="js/lib/require.js"></script>
+        <!-- <script type="text/javascript" src="js/lib/blanket/blanket.min.js"  data-cover-flags="branchTracking" data-cover-only="graphZoomNumberLineInteraction.js"></script> -->
 
         <script  type="text/javascript">
-        (function(){ 'use strict';
 
             //don't start the test now
             QUnit.config.autostart = false;
@@ -35,7 +34,6 @@
                     QUnit.start();
                 });
             });
-        }());
         </script>
     </head>
     <body>

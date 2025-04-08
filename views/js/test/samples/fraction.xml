@@ -2,7 +2,7 @@
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="i15124849571846177" title="fractionModel" label="fractionModel" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.3.0-sprint64 1/2">
   <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="string"/>
   <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
-  <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title=""/>
+  <stylesheet href="/parccTei/views/js/test/samples/style\/custom\/tao-user-styles.css" type="text/css" media="all" title=""/>
   <itemBody>
     <div class="grid-row">
       <div class="col-12">
@@ -26,7 +26,7 @@
             <markup xmlns="http://www.w3.org/1999/xhtml">
               <div class="fractionModelInteraction">
                 <div class="prompt">
-        
+
     </div>
                 <div class="shape-panel">
                   <h3 class="shape-title">Fraction Model</h3>
