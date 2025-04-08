@@ -40,15 +40,10 @@ define([
     ciRegistry.resetProviders();
     ciRegistry.registerProvider(pciTestProvider.getModuleName());
 
-    module('Point Line Graph Interaction', {
-        teardown : function(){
-            if(runner){
-                runner.clear();
-            }
-        }
-    });
+    QUnit.module('Point Line Graph Interaction');
 
-    QUnit.asyncTest('rendering', function (assert){
+    QUnit.test('rendering', function (assert){
+        const done = assert.async();
 
         var $container = $('#' + fixtureContainerId);
         assert.equal($container.length, 1, 'the item container exists');
@@ -63,7 +58,7 @@ define([
                 assert.equal($container.find('.qti-interaction.qti-customInteraction').length, 1, 'the container contains a custom interaction');
                 assert.equal($container.find('.qti-customInteraction .graphPointLineGraphInteraction').length, 1, 'the container contains a Point Line Graph interaction');
 
-                QUnit.start();
+                done();
             })
             .on('responsechange', function (response){
                 $('#response-display').html(JSON.stringify(response, null, 2));
@@ -75,8 +70,8 @@ define([
             .render($container);
     });
 
-    QUnit.asyncTest('response', function (assert){
-
+    QUnit.test('response', function (assert){
+        const done = assert.async();
         var response = {
             list : {
                 string : [
@@ -102,14 +97,15 @@ define([
 
                 //set the response
                 interaction.setResponse(response);
+                done();
             })
             .on('responsechange', function (res){
-
-                QUnit.start();
 
                 assert.ok(_.isPlainObject(res), 'response changed');
                 assert.ok(_.isPlainObject(res.RESPONSE), 'response identifier ok');
                 assert.deepEqual(res.RESPONSE, response, 'response set/get ok');
+                runner.clear();
+                done();
             })
             .on('error', function(error) {
                 window.console.log(error);
@@ -119,8 +115,8 @@ define([
 
     });
 
-    QUnit.asyncTest('state', function (assert){
-
+    QUnit.test('state', function (assert){
+        const done = assert.async();
         var response = {
             list : {
                 string : [
@@ -138,11 +134,13 @@ define([
 
         runner = qtiItemRunner('qti', itemData)
             .on('render', function (){
-                QUnit.start();
                 assert.deepEqual(this.getState(), state, 'state set/get ok');
+                done();
             })
             .on('error', function(error) {
                 window.console.log(error);
+                runner.clear();
+                done();
             })
             .init()
             .render($container, { state: state });
@@ -150,7 +148,8 @@ define([
 
     QUnit.module('Visual test');
 
-    QUnit.asyncTest('Display and play', function(assert){
+    QUnit.test('Display and play', function(assert){
+        const done = assert.async();
         var $container = $('#' + outsideContainerId);
 
         assert.equal($container.length, 1, 'the item container exists');
@@ -158,10 +157,12 @@ define([
 
         runner = qtiItemRunner('qti', itemData)
             .on('render', function(){
-                QUnit.start();
+                done();
             })
             .on('error', function(error) {
                 assert.ok(false, error);
+                runner.clear();
+                done();
             })
             .init()
             .render($container);

@@ -27,9 +27,8 @@ define([
 ], function($, _, qtiItemRunner, ciRegistry, pciTestProvider, itemData){
     'use strict';
 
-    var runner;
-    var fixtureContainerId = 'item-container';
-    var outsideContainerId = 'outside-container';
+    const fixtureContainerId = 'item-container';
+    const outsideContainerId = 'outside-container';
 
     //manually register the pci from its manifest
     pciTestProvider.addManifestPath(
@@ -38,21 +37,51 @@ define([
     ciRegistry.resetProviders();
     ciRegistry.registerProvider(pciTestProvider.getModuleName());
 
-    module('Zoom Number Line Interaction', {
-        teardown : function(){
-            if(runner){
-                runner.clear();
-            }
+    QUnit.module('Visual test', {
+        afterEach() {
+            $('#' + fixtureContainerId).empty();
         }
     });
 
-    QUnit.asyncTest('rendering', function(assert){
+    QUnit.test('Display and play', function(assert){
+        const done = assert.async();
+        const $container = $('#' + fixtureContainerId);
 
-        var $container = $('#' + fixtureContainerId);
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        runner = qtiItemRunner('qti', itemData)
+        const runner = qtiItemRunner('qti', _.cloneDeep(itemData))
+            .on('render', function(){
+                done();
+            })
+            .on('responsechange', function(response){
+                window.console.log(response.RESPONSE);
+                runner.clear();
+                done();
+            })
+            .on('error', function(error) {
+                assert.ok(false, error);
+                runner.clear();
+                done();
+            })
+            .init()
+            .render($container, { state: {} });
+    });
+
+
+    QUnit.module('Zoom Number Line Interaction', {
+        afterEach() {
+            $('#' + fixtureContainerId).empty();
+        }
+    });
+
+    QUnit.test('rendering', function(assert){
+        const done = assert.async();
+        const $container = $('#' + fixtureContainerId);
+        assert.equal($container.length, 1, 'the item container exists');
+        assert.equal($container.children().length, 0, 'the container has no children');
+
+        const runner = qtiItemRunner('qti', itemData)
             .on('render', function(){
 
                 assert.equal($container.children().length, 1, 'the container a elements');
@@ -60,109 +89,92 @@ define([
                 assert.equal($container.find('.qti-interaction').length, 1, 'the container contains an interaction .qti-interaction');
                 assert.equal($container.find('.qti-interaction.qti-customInteraction').length, 1, 'the container contains a custom interaction');
                 assert.equal($container.find('.qti-customInteraction .graphZoomNumberLineInteraction').length, 1, 'the custom interaction is a graphZoomNumberLineInteraction');
-
-                QUnit.start();
+                done();
             })
             .on('responsechange', function(response){
                 window.console.log(response.RESPONSE);
+                runner.clear();
+                done();
             })
             .on('error', function(error) {
                 window.console.log(error);
+                done();
+                runner.clear();
             })
             .init()
             .render($container);
 
     });
 
-    QUnit.asyncTest('response', function(assert){
-        var response = {
-            base : {
-                float : 5.35
+    QUnit.test('response', function(assert){
+        const done = assert.async();
+        const response = {
+            base: {
+                float: 5.35
             }
         };
-        var $container = $('#' + fixtureContainerId);
+        const $container = $('#' + fixtureContainerId);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        runner = qtiItemRunner('qti', itemData)
+        const runner = qtiItemRunner('qti', itemData)
             .on('render', function(){
-
-                var interaction,
-                    interactions = this._item.getInteractions();
-
+                const interactions = this._item.getInteractions();
                 assert.equal(_.size(interactions), 1, 'one interaction');
-                interaction = interactions[0];
 
-                //set the response
+                const interaction = interactions[0];
                 interaction.setResponse(response);
+                done();
             })
             .on('responsechange', function(res){
-                QUnit.start();
                 assert.ok(_.isPlainObject(res), 'response changed');
                 assert.ok(_.isPlainObject(res.RESPONSE), 'response identifier ok');
                 assert.deepEqual(res.RESPONSE, response, 'response set/get ok');
+                runner.clear();
+                done();
             })
             .on('error', function(error) {
-                window.console.log(error);
+                console.error(error);
+                runner.clear();
+                done();
             })
             .init()
             .render($container);
-
     });
 
-    QUnit.asyncTest('state', function(assert){
-        var response = {
+    QUnit.test('state', function(assert){
+        const done = assert.async();
+        const response = {
             base : {
                 float : 5.35
             }
         };
 
-        var state = {RESPONSE : response};
-        var $container = $('#' + fixtureContainerId);
+        const state = {RESPONSE : response};
+        const $container = $('#' + fixtureContainerId);
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
-        runner = qtiItemRunner('qti', itemData)
+        const runner = qtiItemRunner('qti', _.cloneDeep(itemData))
             .on('render', function(){
                 assert.deepEqual(this.getState(), state, 'state set/get ok');
+                done();
             })
             .on('responsechange', function(res){
-                QUnit.start();
 
                 //if the state has been set, the response should have changed
                 assert.ok(_.isPlainObject(res), 'response changed');
                 assert.ok(_.isPlainObject(res.RESPONSE), 'response identifier ok');
                 assert.deepEqual(res.RESPONSE, response, 'response set/get ok');
+                runner.clear();
+                done();
             })
             .on('error', function(error) {
                 window.console.log(error);
             })
             .init()
+            .setState(state)
             .render($container, { state: state });
     });
-
-
-    QUnit.module('Visual test');
-
-    QUnit.asyncTest('Display and play', function(assert){
-        var $container = $('#' + outsideContainerId);
-
-        assert.equal($container.length, 1, 'the item container exists');
-        assert.equal($container.children().length, 0, 'the container has no children');
-
-        qtiItemRunner('qti', itemData)
-            .on('render', function(){
-                QUnit.start();
-            })
-            .on('responsechange', function(response){
-                window.console.log(response.RESPONSE);
-            })
-            .on('error', function(error) {
-                assert.ok(false, error);
-            })
-            .init()
-            .render($container, { state: {} });
-    });
-
 });

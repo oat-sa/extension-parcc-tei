@@ -2,7 +2,7 @@
 <assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="i1512735831659316" title="PointLIneGraph" label="PointLIneGraph" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.3.0-sprint64 1/2">
     <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="string"/>
     <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
-    <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title=""/>
+    <stylesheet href="/parccTei/views/js/test/samples/style\/custom\/tao-user-styles.css" type="text/css" media="all" title=""/>
     <itemBody>
         <div class="grid-row">
             <div class="col-12">

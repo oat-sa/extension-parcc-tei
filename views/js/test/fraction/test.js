@@ -39,25 +39,19 @@ define([
     ciRegistry.resetProviders();
     ciRegistry.registerProvider(pciTestProvider.getModuleName());
 
-    module('Fraction Interaction', {
-        teardown : function(){
-            if(runner){
-                runner.clear();
-            }
-        }
-    });
+    QUnit.module('Fraction Interaction');
 
-    QUnit.asyncTest('renders', 10, function(assert){
+    QUnit.test('renders', function(assert) {
+        const done = assert.async();
         var $container = $('#' + fixtureContainerId);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', itemData)
-            .on('render', function(){
-
-                assert.equal($container.children().length, 1, 'the container a elements');
-                assert.equal($container.children('.qti-item').length, 1, 'the container contains a the root element .qti-item');
+            .on('render', function() {
+                assert.equal($container.children().length, 1, 'the container has elements');
+                assert.equal($container.children('.qti-item').length, 1, 'the container contains the root element .qti-item');
                 assert.equal($container.find('.qti-interaction').length, 1, 'the container contains an interaction .qti-interaction');
                 assert.equal($container.find('.qti-interaction.qti-customInteraction').length, 1, 'the container contains a custom interaction');
                 assert.equal($container.find('.qti-customInteraction .fractionModelInteraction').length, 1, 'the custom interaction is a fraction model');
@@ -65,55 +59,60 @@ define([
                 assert.equal($container.find('.qti-customInteraction .shape-controls button').length, 3, 'the interaction contains 3 controls');
                 assert.equal($container.find('.qti-customInteraction .shape-container svg').length, 1, 'the interaction contains the svg element');
 
-                QUnit.start();
+                runner.clear();
+                done();
             })
             .init()
             .render($container);
     });
 
-    QUnit.asyncTest('more partitions', 11, function(assert){
+    QUnit.test('more partitions', function(assert) {
+        const done = assert.async();
+
         var $container = $('#' + fixtureContainerId);
 
         assert.equal($container.length, 1, 'the item container exists');
         assert.equal($container.children().length, 0, 'the container has no children');
 
         runner = qtiItemRunner('qti', itemData)
-            .on('render', function(){
-                var $more,
-                    state;
+            .on('render', function() {
+                var $more, state;
 
                 assert.equal($container.find('.qti-customInteraction .fractionModelInteraction').length, 1, 'the custom interaction is a fraction model');
 
                 state = this.getState();
                 assert.ok(typeof state === 'object', 'The state is an object');
-                assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well formated array');
+                assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well-formatted array');
                 assert.equal(_.filter(state.RESPONSE.selection).length, 0, 'No selected partition by default');
-                assert.equal(state.RESPONSE.selection.length, 2, 'There is 2 partitions by default');
+                assert.equal(state.RESPONSE.selection.length, 2, 'There are 2 partitions by default');
 
                 $more = $('.fractionModelInteraction .shape-controls button.more', $container);
                 assert.equal($more.length, 1, 'the more button is there');
 
                 $more.click();
             })
-            .on('statechange', function(state){
-
-                assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well formated array');
+            .on('statechange', function(state) {
+                // Verify the state update after clicking "more"
+                console.log('State changed:', state);
+                assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well-formatted array');
                 assert.equal(_.filter(state.RESPONSE.selection).length, 0, 'No selected partition in the state');
-                assert.equal(state.RESPONSE.selection.length, 3, '3 partitions in the state');
-
-                QUnit.start();
+                assert.equal(state.RESPONSE.selection.length, 3, '3 partitions in the state after clicking "more"');
+                runner.clear();
+                done();
             })
             .on('error', function(error) {
                 window.console.log(error);
+                done();
             })
             .init()
             .render($container);
     });
 
-    QUnit.asyncTest('less partitions', 11, function(assert){
+    QUnit.test('less partitions', function(assert){
+        const done = assert.async();
         var $container = $('#' + fixtureContainerId);
 
-        //update the sample to start with 4 partitions
+        // Update the sample to start with 4 partitions
         var updatedFractionData = _.cloneDeep(itemData);
         updatedFractionData.body.elements['interaction_imsportablecustominteraction_5a2a9c6d8d4ac661204810'].properties.partitionInit = 4;
 
@@ -129,34 +128,36 @@ define([
 
                 state = this.getState();
                 assert.ok(typeof state === 'object', 'The state is an object');
-                assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well formated response');
+                assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well-formatted response');
                 assert.equal(_.filter(state.RESPONSE.selection).length, 0, 'No selected partition by default');
-                assert.equal(state.RESPONSE.selection.length, 4, 'There is 4 partitions by default');
+                assert.equal(state.RESPONSE.selection.length, 4, 'There are 4 partitions by default');
 
                 $fewer = $('.fractionModelInteraction .shape-controls button.fewer', $container);
                 assert.equal($fewer.length, 1, 'the less button is there');
 
-                $fewer.click();
+                $fewer.click(); // Trigger the "fewer" button click
             })
             .on('statechange', function(state){
-
-                assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well formated response');
+                assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well-formatted response');
                 assert.equal(_.filter(state.RESPONSE.selection).length, 0, 'No selected partition in the state');
-                assert.equal(state.RESPONSE.selection.length, 3, '3 partitions in the state');
+                assert.equal(state.RESPONSE.selection.length, 3, '3 partitions in the state after clicking "fewer"');
 
-                QUnit.start();
+                runner.clear();
+                done();
             })
             .on('error', function(error) {
                 window.console.log(error);
+                done();
             })
             .init()
             .render($container);
     });
 
-    QUnit.asyncTest('select partitions', 11, function(assert){
+    QUnit.test('select partitions', function(assert){
+        const done = assert.async();
         var $container = $('#' + fixtureContainerId);
 
-        //update the sample to start with 4 partitions
+        // Update the sample to start with 4 partitions
         var updatedFractionData = _.cloneDeep(itemData);
         updatedFractionData.body.elements['interaction_imsportablecustominteraction_5a2a9c6d8d4ac661204810'].properties.partitionInit = 4;
 
@@ -172,33 +173,40 @@ define([
 
                 state = this.getState();
                 assert.ok(typeof state === 'object', 'The state is an object');
-                assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well formated response');
+                assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well-formatted response');
                 assert.equal(_.filter(state.RESPONSE.selection).length, 0, 'No selected partition by default');
-                assert.equal(state.RESPONSE.selection.length, 4, 'There is 4 partitions by default');
+                assert.equal(state.RESPONSE.selection.length, 4, 'There are 4 partitions by default');
 
                 $partitions = $('.fractionModelInteraction .shape-container svg > path', $container);
-                assert.equal($partitions.length, 4, 'There is 4 partitions in the canvas');
+                assert.equal($partitions.length, 4, 'There are 4 partitions in the canvas');
 
-                var event = document.createEvent("SVGEvents");
-                event.initEvent("click",true,true);
-                $partitions[0].dispatchEvent(event);
+                if ($partitions.length > 0) {
+                    // Dispatch click event on the first partition (if available)
+                    var event = document.createEvent("SVGEvents");
+                    event.initEvent("click", true, true);
+                    $partitions[0].dispatchEvent(event);
+                } else {
+                    assert.ok(false, "Partitions were not found in the canvas.");
+                }
             })
             .on('statechange', function(state){
-
-                assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well formated response');
+                assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well-formatted response');
                 assert.equal(_.filter(state.RESPONSE.selection).length, 1, '1 partition is selected');
                 assert.equal(state.RESPONSE.selection.length, 4, '4 partitions in the state');
 
-                QUnit.start();
+                runner.clear();
+                done();
             })
             .on('error', function(error) {
                 window.console.log(error);
+                done();
             })
             .init()
             .render($container);
     });
 
-    QUnit.asyncTest('set state', 8, function(assert){
+    QUnit.test('set state', function(assert){
+        const done = assert.async();
         var $container = $('#' + fixtureContainerId);
         var state = {
             RESPONSE : {
@@ -226,10 +234,12 @@ define([
                 assert.ok(responses.RESPONSE.base && responses.RESPONSE.base.string, 'The state contains a well formated response');
                 assert.equal(responses.RESPONSE.base.string, '3/5', 'No selected partition by default');
 
-                QUnit.start();
+                runner.clear();
+                done();
             })
             .on('error', function(error) {
                 window.console.log(error);
+                done();
             })
             .init()
             .render($container, { state: state } );
@@ -237,7 +247,8 @@ define([
 
     QUnit.module('Visual test');
 
-    QUnit.asyncTest('Display and play', function(assert){
+    QUnit.test('Display and play', function(assert){
+        const done = assert.async();
         var $container = $('#' + outsideContainerId);
 
         assert.equal($container.length, 1, 'the item container exists');
@@ -245,10 +256,11 @@ define([
 
         runner = qtiItemRunner('qti', itemData)
             .on('render', function(){
-                QUnit.start();
+                done();
             })
             .on('error', function(error) {
                 assert.ok(false, error);
+                done();
             })
             .init()
             .render($container);

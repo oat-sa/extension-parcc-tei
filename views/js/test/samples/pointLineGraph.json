@@ -100,7 +100,7 @@
             "serial": "stylesheet_5a2a9ccebca9f240712317",
             "qtiClass": "stylesheet",
             "attributes": {
-                "href": "style\/custom\/tao-user-styles.css",
+                "href": "/parccTei/views/js/test/samples/style\/custom\/tao-user-styles.css",
                 "type": "text\/css",
                 "media": "all",
                 "title": ""
