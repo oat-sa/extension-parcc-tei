@@ -97,6 +97,7 @@ define([
 
                 //set the response
                 interaction.setResponse(response);
+                // TODO: temp fix, check why responsechange is not triggered
                 done();
             })
             .on('responsechange', function (res){

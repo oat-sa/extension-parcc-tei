@@ -171,6 +171,7 @@ define([
 
                 //set the response
                 interaction.setResponse(response);
+                // TODO: temp fix, check why responsechange is not triggered
                 done();
             })
             .on("responsechange", function (res) {
@@ -234,6 +235,7 @@ define([
         const runner = qtiItemRunner("qti", itemData)
             .on("render", function () {
                 assert.deepEqual(this.getState(), state, "state set/get ok");
+                // TODO: temp fix, check why responsechange is not triggered
                 done();
             })
             .on("responsechange", function (res) {
