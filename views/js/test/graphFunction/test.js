@@ -39,15 +39,10 @@ define([
     ciRegistry.resetProviders();
     ciRegistry.registerProvider(pciTestProvider.getModuleName());
 
-    module('Graph Function Interaction', {
-        teardown : function (){
-            if(runner){
-                runner.clear();
-            }
-        }
-    });
+    QUnit.module('Graph Function Interaction');
 
-    QUnit.asyncTest('rendering', function (assert){
+    QUnit.test('rendering', function (assert){
+        const done = assert.async();
 
         var $container = $('#' + fixtureContainerId);
         assert.equal($container.length, 1, 'the item container exists');
@@ -62,16 +57,20 @@ define([
                 assert.equal($container.find('.qti-interaction.qti-customInteraction').length, 1, 'the container contains a custom interaction');
                 assert.equal($container.find('.qti-customInteraction .graphFunctionInteraction').length, 1, 'the custom interaction is a fraction model');
 
-                QUnit.start();
+                runner.clear();
+                done();
             })
             .on('error', function(error) {
                 window.console.log(error);
+                runner.clear();
+                done();
             })
             .init()
             .render($container);
     });
 
-    QUnit.asyncTest('response', function (assert){
+    QUnit.test('response', function (assert){
+        const done = assert.async();
         var response = {
             record : [
                 {
@@ -100,23 +99,25 @@ define([
                 interaction.setResponse(response);
             })
             .on('responsechange', function (res){
-                QUnit.start();
 
                 //if the state has been set, the response should have changed
                 assert.ok(_.isPlainObject(res), 'response changed');
                 assert.ok(_.isPlainObject(res.RESPONSE), 'response identifier ok');
                 assert.deepEqual(res.RESPONSE, response, 'response set/get ok');
+                runner.clear();
+                done();
             })
             .on('error', function(error) {
                 window.console.log(error);
+                done();
             })
             .init()
             .render($container);
 
     });
 
-    QUnit.asyncTest('state', function (assert){
-
+    QUnit.test('state', function (assert){
+        const done = assert.async();
         var response = {
             record : [
                 {
@@ -138,10 +139,12 @@ define([
             .on('render', function (){
                 assert.deepEqual(this.getState(), state, 'state set/get ok');
 
-                QUnit.start();
+                runner.clear();
+                done();
             })
             .on('error', function(error) {
                 window.console.log(error);
+                done();
             })
             .init()
             .render($container, { state: state });
@@ -149,16 +152,19 @@ define([
 
     QUnit.module('Visual test');
 
-    QUnit.asyncTest('display and play', function(assert){
+    QUnit.test('display and play', function(assert){
+        const done = assert.async();
         var $container = $('#' + outsideContainerId);
 
         runner = qtiItemRunner('qti', itemData)
             .on('render', function(){
                 assert.equal($container.children().length, 1, 'the container a elements');
-                QUnit.start();
+                runner.clear();
+                done();
             })
             .on('error', function(error) {
                 window.console.log(error);
+                done();
             })
             .init()
             .render($container);

@@ -6,7 +6,7 @@
     </correctResponse>
   </responseDeclaration>
   <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
-  <stylesheet href="style/custom/tao-user-styles.css" type="text/css" media="all" title=""/>
+  <stylesheet href="/parccTei/views/js/test/samples/style\/custom\/tao-user-styles.css" type="text/css" media="all" title=""/>
   <itemBody>
     <div class="grid-row">
       <div class="col-12">
