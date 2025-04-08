@@ -180,14 +180,12 @@ define([
                     assert.ok(_.isPlainObject(res), 'response changed');
                     assert.ok(_.isPlainObject(res.RESPONSE), 'response identifier ok');
                     assert.deepEqual(res.RESPONSE, response, 'response set/get ok');
-                    // runner.clear();
+
                     done();
                 }
             })
             .on('error', function(error) {
                 window.console.log(error);
-                // runner.clear();
-                // done();
             })
             .init()
             .setState(state)
