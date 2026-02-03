@@ -24,15 +24,15 @@ define(['lodash', 'jquery', 'taoQtiItem/qtiCreator/helper/xmlRenderer'], functio
         var rp = item.responseProcessing;
         var renderedRp = rp.render(xmlRenderer.get()) || '<responseProcessing template=\"EMPTY\"/>';
         var $rpXml = $($.parseXML(renderedRp));
-        var rcXml = $.parseXML(newResponseConditionXml);
-        var newRc = $rpXml[0].importNode(rcXml.documentElement, true);
+        var newRcXml = $.parseXML(newResponseConditionXml);
+        var newRc = $rpXml[0].importNode(newRcXml.documentElement, true);
         var responseIdentifier = interaction.attr('responseIdentifier');
         var responseDeclaration = interaction.getResponseDeclaration();
-        var $respVar = $(rcXml).find('variable[identifier="'+responseIdentifier+'"]');
+        var $newRespVar = $(newRcXml).find('variable[identifier="'+responseIdentifier+'"]');
 
         //prepare replacement criteria
         criteria = _.defaults(criteria || {}, {
-            responseIdentifierCount : $respVar.length
+            responseIdentifierCount : $newRespVar.length
         });
 
         if($rpXml.length){
@@ -46,15 +46,17 @@ define(['lodash', 'jquery', 'taoQtiItem/qtiCreator/helper/xmlRenderer'], functio
 
             }else{
                 //if it is not a standard template, replace its rc with the new one
-                if($respVar.length === criteria.responseIdentifierCount){
+                if($newRespVar.length === criteria.responseIdentifierCount){
+                    var $existingVar = $rpXml.find('variable[identifier="' + responseIdentifier + '"]');
+                    var $existingRespCond = $existingVar.closest('responseCondition');
 
-                    //remove old node
-                    var $respCond = $respVar.parents('responseCondition');
-                    $respCond[0].parentNode.removeChild($respCond[0]);
+                    // Remove old node
+                    if($existingRespCond.length) {
+                        $existingRespCond.remove();
+                    }
 
-                    //append the new one
+                    // Append the new one
                     $rpXml[0].documentElement.appendChild(newRc);
-
                 }else{
                     throw new Error('Unexpected number of rc found');
                 }
