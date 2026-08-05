@@ -441,12 +441,13 @@ define([
                 //active the button & interval editing
                 activate(uid);
 
-            }).on('click', '.intervals-selected .deleter', function(){
-
+            }).on('click', '.intervals-selected .deleter', function(e){
                 var $deleter = $(this),
                     $parent = $deleter.parent('.interval'),
                     uid = $parent.data('uid'),
                     interval = intervals[uid];
+
+                e.preventDefault();
 
                 interval.obj.destroy();
                 $parent.remove();
