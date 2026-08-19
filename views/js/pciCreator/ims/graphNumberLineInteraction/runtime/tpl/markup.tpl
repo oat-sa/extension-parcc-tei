@@ -1,5 +1,5 @@
 <div class="graphNumberLineInteraction">
-    <div class="shape-panel">
+    <div class="shape-panel clearfix">
         <div class="shape-container"></div>
         <div class="shape-controls clearfix">
             <div class="intervals-available">
