@@ -226,6 +226,9 @@ define([
                 $partitions = $('.fractionModelInteraction .shape-container svg > path', $container);
                 assert.equal($partitions.length, 4, 'There are 4 partitions in the canvas');
 
+                responses = this.getResponses();
+                assert.strictEqual(responses.RESPONSE.base, null, 'An untouched empty pie is unanswered');
+
                 event = document.createEvent('SVGEvents');
                 event.initEvent('click', true, true);
                 $partitions[0].dispatchEvent(event);
