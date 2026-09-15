@@ -14,6 +14,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  * Copyright (c) 2014-2017 Parcc, Inc.
+ * Copyright (c) 2026 (updates) Open Assessment Technologies SA
  */
 
 
@@ -109,6 +110,11 @@ define([
             var selection = _.values(this.getSelectedPartitions());
             var numerator = _.filter(selection).length;
             var denominator = selection.length;
+            // Initial pie (e.g. "0/4") and a later fully cleared pie are not answers.
+            // Delivery uses empty PCI JSON so allowSkipping / validateResponses can block Next.
+            if(!this._hasUserResponded || numerator === 0){
+                return {base : null};
+            }
             return {
                 base : {
                     string : numerator + '/' + denominator
@@ -153,6 +159,7 @@ define([
             this.id = id;
             this.dom = dom;
             this.config = config || {};
+            this._hasUserResponded = false;
 
             var _this = this,
                 $container = $(dom),
@@ -248,6 +255,7 @@ define([
                     var newState = _this.getSelectedPartitions();
                     newState.push(false);
                     _this.setState(newState);
+                    _this._hasUserResponded = true;
                     $container.trigger('statechange.fraction');
                 }
 
@@ -258,11 +266,13 @@ define([
                     var newState = _this.getSelectedPartitions();
                     newState.pop();
                     _this.setState(newState);
+                    _this._hasUserResponded = true;
                     $container.trigger('statechange.fraction');
                 }
 
             }).on('click.fraction', 'button.reset', function(){
 
+                _this._hasUserResponded = false;
                 _this.setFractionModel(_this.config.selectedPartitionsInit, _this.config.partitionInit);
                 _this.setState(_this.config.selectedPartitions);
                 $container.trigger('reset.fraction');
@@ -278,6 +288,8 @@ define([
                 _this.trigger('responseChange', [_this.getResponse()]);
 
             }).on('select_slice.pieChart unselect_slice.pieChart', function(e, selectedPartitions, totalSelected){
+
+                _this._hasUserResponded = totalSelected > 0;
 
                 //update numerator
                 numerator = totalSelected;
@@ -321,6 +333,7 @@ define([
                     state.push(i<numerator);
                 }
 
+                this._hasUserResponded = true;
                 this.setState(state);
                 $(this.dom).trigger('statechange.fraction');
             }
@@ -332,6 +345,7 @@ define([
          * @param {Object} interaction
          */
         resetResponse : function(){
+            this._hasUserResponded = false;
             this.setFractionModel(this.config.selectedPartitionsInit, this.config.partitionInit);
             this.setState(this.config.selectedPartitions);
             $(this.dom).trigger('statechange.fraction');
@@ -345,6 +359,7 @@ define([
         setSerializedState : function(state){
             if(state && _.isArray(state.selection)){
                 this.setState(state.selection);
+                this._hasUserResponded = _.filter(state.selection).length > 0;
                 $(this.dom).trigger('statechange.fraction');
             }
         },

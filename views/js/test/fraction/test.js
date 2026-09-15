@@ -205,6 +205,55 @@ define([
             .render($container);
     });
 
+    QUnit.test('cleared selection is unanswered', function(assert){
+        const done = assert.async();
+        var $container = $('#' + fixtureContainerId);
+
+        var updatedFractionData = _.cloneDeep(itemData);
+        updatedFractionData.body.elements['interaction_imsportablecustominteraction_5a2a9c6d8d4ac661204810'].properties.partitionInit = 4;
+
+        assert.equal($container.length, 1, 'the item container exists');
+        assert.equal($container.children().length, 0, 'the container has no children');
+
+        runner = qtiItemRunner('qti', updatedFractionData)
+            .on('render', function(){
+                var $partitions,
+                    responses,
+                    event;
+
+                assert.equal($container.find('.qti-customInteraction .fractionModelInteraction').length, 1, 'the custom interaction is a fraction model');
+
+                $partitions = $('.fractionModelInteraction .shape-container svg > path', $container);
+                assert.equal($partitions.length, 4, 'There are 4 partitions in the canvas');
+
+                responses = this.getResponses();
+                assert.strictEqual(responses.RESPONSE.base, null, 'An untouched empty pie is unanswered');
+
+                event = document.createEvent('SVGEvents');
+                event.initEvent('click', true, true);
+                $partitions[0].dispatchEvent(event);
+
+                responses = this.getResponses();
+                assert.equal(responses.RESPONSE.base.string, '1/4', 'Selecting a slice records a response');
+
+                event = document.createEvent('SVGEvents');
+                event.initEvent('click', true, true);
+                $partitions[0].dispatchEvent(event);
+
+                responses = this.getResponses();
+                assert.strictEqual(responses.RESPONSE.base, null, 'Clearing all slices leaves the interaction unanswered');
+
+                runner.clear();
+                done();
+            })
+            .on('error', function(error) {
+                window.console.log(error);
+                done();
+            })
+            .init()
+            .render($container);
+    });
+
     QUnit.test('set state', function(assert){
         const done = assert.async();
         var $container = $('#' + fixtureContainerId);
