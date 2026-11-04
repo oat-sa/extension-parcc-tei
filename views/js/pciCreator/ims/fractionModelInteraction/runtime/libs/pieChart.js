@@ -70,6 +70,21 @@ define([
                         'fill-opacity' : 1
                     });
                 });
+            },
+            makeInteractive = function(raphaelObject, index, selected){
+                var toggle = getClickCallback(index);
+
+                raphaelObject.node.setAttribute('tabindex', '0');
+                raphaelObject.node.setAttribute('role', 'checkbox');
+                raphaelObject.node.setAttribute('aria-label', `Pie slice ${index + 1} of ${selectedPartitions.length}`);
+                raphaelObject.node.setAttribute('aria-checked', selected ? 'true' : 'false');
+                raphaelObject.click(toggle);
+                raphaelObject.node.addEventListener('keydown', function(event){
+                    if(event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 13 || event.keyCode === 32){
+                        event.preventDefault();
+                        toggle.call(raphaelObject);
+                    }
+                });
             };
 
         //work on a clone of the array to prevent external modification
@@ -120,7 +135,7 @@ define([
             chart.push(p);
 
             // Register events on the slice / sector
-            p.click(getClickCallback(j));
+            makeInteractive(p, j, selected);
         }
 
         function drawCircle(){
@@ -134,7 +149,7 @@ define([
             chart.push(c);
 
             // Register events on the slice / sector
-            c.click(getClickCallback(0));
+            makeInteractive(c, 0, selectedPartitions[0]);
         }
 
         function getClickCallback(j){
@@ -146,6 +161,7 @@ define([
                     this.attr(getStyle(true));
                     // update the internal state
                     selectedPartitions[j] = true;
+                    this.node.setAttribute('aria-checked', 'true');
                     $container.trigger('select_slice.pieChart', [selectedPartitions, getTotalSelected(selectedPartitions)]);
                 }else{
 
@@ -153,6 +169,7 @@ define([
                     this.attr(getStyle(false));
                     // update the internal state
                     selectedPartitions[j] = false;
+                    this.node.setAttribute('aria-checked', 'false');
                     $container.trigger('unselect_slice.pieChart', [selectedPartitions, getTotalSelected(selectedPartitions)]);
                 }
             }

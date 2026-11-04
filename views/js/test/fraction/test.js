@@ -58,6 +58,9 @@ define([
                 assert.equal($container.find('.qti-customInteraction .shape-panel').length, 1, 'the interaction contains the shape panel');
                 assert.equal($container.find('.qti-customInteraction .shape-controls button').length, 3, 'the interaction contains 3 controls');
                 assert.equal($container.find('.qti-customInteraction .shape-container svg').length, 1, 'the interaction contains the svg element');
+                assert.equal($container.find('.qti-customInteraction .shape-container [tabindex="0"]').length, 2, 'each partition is keyboard focusable');
+                assert.equal($container.find('.qti-customInteraction .shape-container [role="checkbox"]').length, 2, 'each partition exposes checkbox semantics');
+                assert.equal($container.find('.qti-customInteraction .shape-container [aria-checked="false"]').length, 2, 'each partition exposes its selected state');
 
                 runner.clear();
                 done();
@@ -242,6 +245,45 @@ define([
 
                 responses = this.getResponses();
                 assert.strictEqual(responses.RESPONSE.base, null, 'Clearing all slices leaves the interaction unanswered');
+
+                runner.clear();
+                done();
+            })
+            .on('error', function(error) {
+                window.console.log(error);
+                done();
+            })
+            .init()
+            .render($container);
+    });
+
+    QUnit.test('select partitions using keyboard', function(assert){
+        const done = assert.async();
+        var $container = $('#' + fixtureContainerId);
+
+        // Update the sample to start with 4 partitions
+        var updatedFractionData = _.cloneDeep(itemData);
+        updatedFractionData.body.elements['interaction_imsportablecustominteraction_5a2a9c6d8d4ac661204810'].properties.partitionInit = 4;
+
+        runner = qtiItemRunner('qti', updatedFractionData)
+            .on('render', function(){
+                var $partitions = $('.fractionModelInteraction .shape-container svg > path', $container);
+
+                assert.equal($partitions.length, 4, 'There are 4 partitions in the canvas');
+                assert.equal($partitions.first().attr('aria-checked'), 'false', 'The first partition is initially unselected');
+
+                $partitions[0].dispatchEvent(new KeyboardEvent('keydown', {
+                    key: 'Enter',
+                    bubbles: true,
+                    cancelable: true
+                }));
+            })
+            .on('statechange', function(state){
+                var $firstPartition = $('.fractionModelInteraction .shape-container svg > path', $container).first();
+
+                assert.equal(_.filter(state.RESPONSE.selection).length, 1, '1 partition is selected');
+                assert.equal(state.RESPONSE.selection.length, 4, '4 partitions remain in the state');
+                assert.equal($firstPartition.attr('aria-checked'), 'true', 'The selected partition exposes its updated state');
 
                 runner.clear();
                 done();
