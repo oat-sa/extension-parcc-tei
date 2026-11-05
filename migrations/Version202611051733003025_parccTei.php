@@ -24,8 +24,9 @@ namespace oat\parccTei\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
-use Doctrine\Migrations\Exception\IrreversibleMigration;
+use oat\qtiItemPci\model\IMSPciModel;
 use oat\parccTei\scripts\install\RegisterPciFractionModelInteraction;
+use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundException;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -34,6 +35,14 @@ use oat\parccTei\scripts\install\RegisterPciFractionModelInteraction;
  */
 final class Version202611051733003025_parccTei extends AbstractMigration
 {
+    private const TYPE_IDENTIFIER = 'fractionModelInteraction';
+
+    private const VERSION_UP = '1.0.4';
+
+    private const VERSION_DOWN = '1.0.3';
+
+    private const VERSION_ALIAS = '1.0.*';
+
     public function getDescription(): string
     {
         return 'Re-register Fraction Model PCI 1.0.4 (keyboard navigation and focus indicator)';
@@ -52,9 +61,28 @@ final class Version202611051733003025_parccTei extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        throw new IrreversibleMigration(
-            'In order to undo this migration, please revert the client-side changes and run '
-            . RegisterPciFractionModelInteraction::class . '.'
+        $registry = (new IMSPciModel())->getRegistry();
+
+        if ($registry->has(self::TYPE_IDENTIFIER)) {
+            $this->unregisterVersion($registry, self::VERSION_UP);
+            $this->unregisterVersion($registry, self::VERSION_ALIAS);
+        }
+
+        $this->addReport(
+            $this->propagate(
+                new RegisterPciFractionModelInteraction()
+            )(
+                [self::VERSION_DOWN]
+            )
         );
+    }
+
+    private function unregisterVersion($registry, string $version): void
+    {
+        try {
+            $registry->unregister($registry->fetch(self::TYPE_IDENTIFIER, $version));
+        } catch (PortableElementNotFoundException $e) {
+            // Nothing to remove for this version.
+        }
     }
 }

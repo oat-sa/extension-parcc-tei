@@ -103,6 +103,9 @@ define([
                     || event.keyCode === 13
                     || event.keyCode === 32;
             },
+            clearPointerFocusSuppression = function(){
+                skipFocusRingForPointerFocus = false;
+            },
             shouldShowFocusRing = function(node){
                 if(skipFocusRingForPointerFocus){
                     skipFocusRingForPointerFocus = false;
@@ -130,6 +133,9 @@ define([
                     skipFocusRingForPointerFocus = true;
                     clearFocusRing();
                 });
+                raphaelObject.node.addEventListener('pointerup', clearPointerFocusSuppression);
+                raphaelObject.node.addEventListener('pointercancel', clearPointerFocusSuppression);
+                raphaelObject.node.addEventListener('lostpointercapture', clearPointerFocusSuppression);
                 raphaelObject.node.addEventListener('keydown', function(event){
                     if(isActivationKey(event)){
                         event.preventDefault();
