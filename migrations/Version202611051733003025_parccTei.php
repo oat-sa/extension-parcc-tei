@@ -26,7 +26,8 @@ use Doctrine\DBAL\Schema\Schema;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\qtiItemPci\model\IMSPciModel;
 use oat\parccTei\scripts\install\RegisterPciFractionModelInteraction;
-use oat\taoQtiItem\model\portableElement\exception\PortableElementNotFoundException;
+use oat\qtiItemPci\model\portableElement\storage\IMSPciRegistry;
+use oat\taoQtiItem\model\portableElement\PortableElementService;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -54,7 +55,7 @@ final class Version202611051733003025_parccTei extends AbstractMigration
             $this->propagate(
                 new RegisterPciFractionModelInteraction()
             )(
-                ['1.0.4']
+                [self::VERSION_UP]
             )
         );
     }
@@ -63,26 +64,37 @@ final class Version202611051733003025_parccTei extends AbstractMigration
     {
         $registry = (new IMSPciModel())->getRegistry();
 
-        if ($registry->has(self::TYPE_IDENTIFIER)) {
-            $this->unregisterVersion($registry, self::VERSION_UP);
-            $this->unregisterVersion($registry, self::VERSION_ALIAS);
+        if (!$registry->has(self::TYPE_IDENTIFIER, self::VERSION_UP)) {
+            return;
         }
 
-        $this->addReport(
-            $this->propagate(
-                new RegisterPciFractionModelInteraction()
-            )(
-                [self::VERSION_DOWN]
-            )
+        if ($this->hasNewerVersion($registry)) {
+            $registry->unregister($registry->fetch(self::TYPE_IDENTIFIER, self::VERSION_UP));
+            return;
+        }
+
+        $previousVersionPackage = $registry->export(
+            $registry->fetch(self::TYPE_IDENTIFIER, self::VERSION_DOWN)
         );
+
+        try {
+            $registry->unregister($registry->fetch(self::TYPE_IDENTIFIER, self::VERSION_UP));
+            $registry->unregister($registry->fetch(self::TYPE_IDENTIFIER, self::VERSION_ALIAS));
+
+            $service = new PortableElementService();
+            $service->setServiceLocator($this->getServiceLocator());
+            $service->import(IMSPciModel::PCI_IDENTIFIER, $previousVersionPackage);
+        } finally {
+            if (is_file($previousVersionPackage)) {
+                unlink($previousVersionPackage);
+            }
+        }
     }
 
-    private function unregisterVersion($registry, string $version): void
+    private function hasNewerVersion(IMSPciRegistry $registry): bool
     {
-        try {
-            $registry->unregister($registry->fetch(self::TYPE_IDENTIFIER, $version));
-        } catch (PortableElementNotFoundException $e) {
-            // Nothing to remove for this version.
-        }
+        $latestVersion = $registry->getLatestVersion(self::TYPE_IDENTIFIER)->getVersion();
+
+        return version_compare($latestVersion, self::VERSION_UP, '>');
     }
 }
