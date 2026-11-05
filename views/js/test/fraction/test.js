@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2015-2017 Parcc, Inc.
+ * Copyright (c) 2015-2026 Parcc, Inc.
  */
 
 
@@ -31,6 +31,16 @@ define([
     var runner;
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
+
+    function onRunnerError(assert, done){
+        return function(error){
+            assert.ok(false, 'Runner error: ' + (error.message || error));
+            if(runner){
+                runner.clear();
+            }
+            done();
+        };
+    }
 
     //manually register the pci from its manifest
     pciTestProvider.addManifestPath(
@@ -95,18 +105,13 @@ define([
                 $more.click();
             })
             .on('statechange', function(state) {
-                // Verify the state update after clicking "more"
-                console.log('State changed:', state);
                 assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well-formatted array');
                 assert.equal(_.filter(state.RESPONSE.selection).length, 0, 'No selected partition in the state');
                 assert.equal(state.RESPONSE.selection.length, 3, '3 partitions in the state after clicking "more"');
                 runner.clear();
                 done();
             })
-            .on('error', function(error) {
-                window.console.log(error);
-                done();
-            })
+            .on('error', onRunnerError(assert, done))
             .init()
             .render($container);
     });
@@ -148,10 +153,7 @@ define([
                 runner.clear();
                 done();
             })
-            .on('error', function(error) {
-                window.console.log(error);
-                done();
-            })
+            .on('error', onRunnerError(assert, done))
             .init()
             .render($container);
     });
@@ -200,10 +202,7 @@ define([
                 runner.clear();
                 done();
             })
-            .on('error', function(error) {
-                window.console.log(error);
-                done();
-            })
+            .on('error', onRunnerError(assert, done))
             .init()
             .render($container);
     });
@@ -249,17 +248,15 @@ define([
                 runner.clear();
                 done();
             })
-            .on('error', function(error) {
-                window.console.log(error);
-                done();
-            })
+            .on('error', onRunnerError(assert, done))
             .init()
             .render($container);
     });
 
     QUnit.test('select partitions using keyboard', function(assert){
         const done = assert.async();
-        var $container = $('#' + fixtureContainerId);
+        var $container = $('#' + fixtureContainerId),
+            stateChangeCount = 0;
 
         // Update the sample to start with 4 partitions
         var updatedFractionData = _.cloneDeep(itemData);
@@ -279,19 +276,47 @@ define([
                 }));
             })
             .on('statechange', function(state){
-                var $firstPartition = $('.fractionModelInteraction .shape-container svg > path', $container).first();
+                var $firstPartition = $('.fractionModelInteraction .shape-container svg > path', $container).first(),
+                    firstPartition = $firstPartition[0],
+                    responses;
 
-                assert.equal(_.filter(state.RESPONSE.selection).length, 1, '1 partition is selected');
-                assert.equal(state.RESPONSE.selection.length, 4, '4 partitions remain in the state');
-                assert.equal($firstPartition.attr('aria-checked'), 'true', 'The selected partition exposes its updated state');
+                stateChangeCount++;
 
-                runner.clear();
-                done();
+                if(stateChangeCount === 1){
+                    assert.equal(_.filter(state.RESPONSE.selection).length, 1, '1 partition is selected');
+                    assert.equal(state.RESPONSE.selection.length, 4, '4 partitions remain in the state');
+                    assert.equal($firstPartition.attr('aria-checked'), 'true', 'The selected partition exposes its updated state');
+
+                    firstPartition.dispatchEvent(new KeyboardEvent('keydown', {
+                        key: 'ArrowRight',
+                        bubbles: true,
+                        cancelable: true
+                    }));
+
+                    responses = runner.getResponses();
+                    assert.equal(stateChangeCount, 1, 'An unrelated key does not trigger a state change');
+                    assert.equal(responses.RESPONSE.base.string, '1/4', 'An unrelated key leaves the selection unchanged');
+                    assert.equal($firstPartition.attr('aria-checked'), 'true', 'An unrelated key leaves the exposed state unchanged');
+
+                    firstPartition.dispatchEvent(new KeyboardEvent('keydown', {
+                        key: 'Enter',
+                        bubbles: true,
+                        cancelable: true
+                    }));
+                }else if(stateChangeCount === 2){
+                    assert.equal(_.filter(state.RESPONSE.selection).length, 0, 'The selected partition is deselected with Enter');
+                    assert.equal(state.RESPONSE.selection.length, 4, '4 partitions remain after keyboard deselection');
+                    assert.equal($firstPartition.attr('aria-checked'), 'false', 'The deselected partition exposes its updated state');
+
+                    runner.clear();
+                    done();
+                }else{
+                    assert.ok(false, 'Unexpected state change count: ' + stateChangeCount);
+                    runner.clear();
+                    done();
+                }
             })
-            .on('error', function(error) {
-                window.console.log(error);
-                done();
-            })
+            .on('error', onRunnerError(assert, done))
             .init()
             .render($container);
     });
@@ -328,10 +353,7 @@ define([
                 runner.clear();
                 done();
             })
-            .on('error', function(error) {
-                window.console.log(error);
-                done();
-            })
+            .on('error', onRunnerError(assert, done))
             .init()
             .render($container, { state: state } );
     });
@@ -349,10 +371,7 @@ define([
             .on('render', function(){
                 done();
             })
-            .on('error', function(error) {
-                assert.ok(false, error);
-                done();
-            })
+            .on('error', onRunnerError(assert, done))
             .init()
             .render($container);
     });

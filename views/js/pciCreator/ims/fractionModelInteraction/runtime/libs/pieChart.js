@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2014-2017 Parcc, Inc.
+ * Copyright (c) 2014-2026 Parcc, Inc.
  */
 
 
@@ -45,6 +45,8 @@ define([
 
         var paper = this,
             chart = this.set(),
+            focusRing = null,
+            skipFocusRingForPointerFocus = false,
             padding = config.padding || 2,
             r = parseInt(config.radius),
             // read some stuff from config & reformat datas
@@ -71,6 +73,43 @@ define([
                     });
                 });
             },
+            clearFocusRing = function(){
+                if(focusRing){
+                    focusRing.remove();
+                    focusRing = null;
+                }
+            },
+            applyFocusRing = function(raphaelObject){
+                clearFocusRing();
+                focusRing = raphaelObject.clone();
+
+                focusRing.attr({
+                    fill : 'none',
+                    stroke : '#005fcc',
+                    'stroke-width' : 4,
+                    'stroke-linejoin' : 'round',
+                    cursor : 'default'
+                });
+                focusRing.node.setAttribute('pointer-events', 'none');
+                focusRing.node.setAttribute('aria-hidden', 'true');
+                focusRing.toFront();
+            },
+            isActivationKey = function(event){
+                return event.key === 'Enter'
+                    || event.key === ' '
+                    || event.key === 'Space'
+                    || event.key === 'Spacebar'
+                    || event.code === 'Space'
+                    || event.keyCode === 13
+                    || event.keyCode === 32;
+            },
+            shouldShowFocusRing = function(node){
+                if(skipFocusRingForPointerFocus){
+                    skipFocusRingForPointerFocus = false;
+                    return false;
+                }
+                return !node.matches || node.matches(':focus-visible');
+            },
             makeInteractive = function(raphaelObject, index, selected){
                 var toggle = getClickCallback(index);
 
@@ -79,8 +118,20 @@ define([
                 raphaelObject.node.setAttribute('aria-label', `Pie slice ${index + 1} of ${selectedPartitions.length}`);
                 raphaelObject.node.setAttribute('aria-checked', selected ? 'true' : 'false');
                 raphaelObject.click(toggle);
+                raphaelObject.node.addEventListener('focus', function(){
+                    if(shouldShowFocusRing(raphaelObject.node)){
+                        applyFocusRing(raphaelObject);
+                    }
+                });
+                raphaelObject.node.addEventListener('blur', function(){
+                    clearFocusRing();
+                });
+                raphaelObject.node.addEventListener('pointerdown', function(){
+                    skipFocusRingForPointerFocus = true;
+                    clearFocusRing();
+                });
                 raphaelObject.node.addEventListener('keydown', function(event){
-                    if(event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar' || event.keyCode === 13 || event.keyCode === 32){
+                    if(isActivationKey(event)){
                         event.preventDefault();
                         toggle.call(raphaelObject);
                     }
@@ -140,7 +191,7 @@ define([
 
         function drawCircle(){
 
-            var c = paper.circle(cx, cy, r).attr(getStyle(false));
+            var c = paper.circle(cx, cy, r).attr(getStyle(selectedPartitions[0]));
 
             //add hover style
             setHoverStyle(c);
