@@ -23,10 +23,11 @@ declare(strict_types=1);
 namespace oat\parccTei\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use oat\tao\scripts\tools\migrations\AbstractMigration;
-use oat\qtiItemPci\model\IMSPciModel;
+use oat\oatbox\reporting\ReportInterface;
 use oat\parccTei\scripts\install\RegisterPciFractionModelInteraction;
+use oat\qtiItemPci\model\IMSPciModel;
 use oat\qtiItemPci\model\portableElement\storage\IMSPciRegistry;
+use oat\tao\scripts\tools\migrations\AbstractMigration;
 use oat\taoQtiItem\model\portableElement\PortableElementService;
 
 /**
@@ -51,13 +52,18 @@ final class Version202611051733003025_parccTei extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addReport(
-            $this->propagate(
-                new RegisterPciFractionModelInteraction()
-            )(
-                [self::VERSION_UP]
-            )
+        $report = $this->propagate(
+            new RegisterPciFractionModelInteraction()
+        )(
+            [self::VERSION_UP]
         );
+
+        $this->abortIf(
+            $report->getType() !== ReportInterface::TYPE_SUCCESS,
+            $report->getMessage()
+        );
+
+        $this->addReport($report);
     }
 
     public function down(Schema $schema): void
@@ -73,19 +79,27 @@ final class Version202611051733003025_parccTei extends AbstractMigration
             return;
         }
 
-        $previousVersionPackage = $registry->export(
-            $registry->fetch(self::TYPE_IDENTIFIER, self::VERSION_DOWN)
-        );
+        $previousVersionPackage = null;
+        if ($registry->has(self::TYPE_IDENTIFIER, self::VERSION_DOWN)) {
+            $previousVersionPackage = $registry->export(
+                $registry->fetch(self::TYPE_IDENTIFIER, self::VERSION_DOWN)
+            );
+        }
 
         try {
             $registry->unregister($registry->fetch(self::TYPE_IDENTIFIER, self::VERSION_UP));
-            $registry->unregister($registry->fetch(self::TYPE_IDENTIFIER, self::VERSION_ALIAS));
 
-            $service = new PortableElementService();
-            $service->setServiceLocator($this->getServiceLocator());
-            $service->import(IMSPciModel::PCI_IDENTIFIER, $previousVersionPackage);
+            if ($registry->has(self::TYPE_IDENTIFIER, self::VERSION_ALIAS)) {
+                $registry->unregister($registry->fetch(self::TYPE_IDENTIFIER, self::VERSION_ALIAS));
+            }
+
+            if ($previousVersionPackage !== null) {
+                $service = new PortableElementService();
+                $service->setServiceLocator($this->getServiceLocator());
+                $service->import(IMSPciModel::PCI_IDENTIFIER, $previousVersionPackage);
+            }
         } finally {
-            if (is_file($previousVersionPackage)) {
+            if ($previousVersionPackage !== null && is_file($previousVersionPackage)) {
                 unlink($previousVersionPackage);
             }
         }
