@@ -13,7 +13,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk Street, # 960789, Boston, MA 02196, USA.
  *
  * Copyright (c) 2026 (original work) Open Assessment Technologies SA;
  */
@@ -23,12 +23,9 @@ declare(strict_types=1);
 namespace oat\parccTei\migrations;
 
 use Doctrine\DBAL\Schema\Schema;
-use oat\oatbox\reporting\ReportInterface;
+use Doctrine\Migrations\Exception\IrreversibleMigration;
 use oat\parccTei\scripts\install\RegisterPciFractionModelInteraction;
-use oat\qtiItemPci\model\IMSPciModel;
-use oat\qtiItemPci\model\portableElement\storage\IMSPciRegistry;
 use oat\tao\scripts\tools\migrations\AbstractMigration;
-use oat\taoQtiItem\model\portableElement\PortableElementService;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -37,14 +34,6 @@ use oat\taoQtiItem\model\portableElement\PortableElementService;
  */
 final class Version202611051733003025_parccTei extends AbstractMigration
 {
-    private const TYPE_IDENTIFIER = 'fractionModelInteraction';
-
-    private const VERSION_UP = '1.0.4';
-
-    private const VERSION_DOWN = '1.0.3';
-
-    private const VERSION_ALIAS = '1.0.*';
-
     public function getDescription(): string
     {
         return 'Re-register Fraction Model PCI 1.0.4 (keyboard navigation and focus indicator)';
@@ -52,63 +41,20 @@ final class Version202611051733003025_parccTei extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $report = $this->propagate(
-            new RegisterPciFractionModelInteraction()
-        )(
-            [self::VERSION_UP]
+        $this->addReport(
+            $this->propagate(
+                new RegisterPciFractionModelInteraction()
+            )(
+                ['1.0.4']
+            )
         );
-
-        $this->abortIf(
-            $report->getType() !== ReportInterface::TYPE_SUCCESS,
-            $report->getMessage()
-        );
-
-        $this->addReport($report);
     }
 
     public function down(Schema $schema): void
     {
-        $registry = (new IMSPciModel())->getRegistry();
-
-        if (!$registry->has(self::TYPE_IDENTIFIER, self::VERSION_UP)) {
-            return;
-        }
-
-        if ($this->hasNewerVersion($registry)) {
-            $registry->unregister($registry->fetch(self::TYPE_IDENTIFIER, self::VERSION_UP));
-            return;
-        }
-
-        $previousVersionPackage = null;
-        if ($registry->has(self::TYPE_IDENTIFIER, self::VERSION_DOWN)) {
-            $previousVersionPackage = $registry->export(
-                $registry->fetch(self::TYPE_IDENTIFIER, self::VERSION_DOWN)
-            );
-        }
-
-        try {
-            $registry->unregister($registry->fetch(self::TYPE_IDENTIFIER, self::VERSION_UP));
-
-            if ($registry->has(self::TYPE_IDENTIFIER, self::VERSION_ALIAS)) {
-                $registry->unregister($registry->fetch(self::TYPE_IDENTIFIER, self::VERSION_ALIAS));
-            }
-
-            if ($previousVersionPackage !== null) {
-                $service = new PortableElementService();
-                $service->setServiceLocator($this->getServiceLocator());
-                $service->import(IMSPciModel::PCI_IDENTIFIER, $previousVersionPackage);
-            }
-        } finally {
-            if ($previousVersionPackage !== null && is_file($previousVersionPackage)) {
-                unlink($previousVersionPackage);
-            }
-        }
-    }
-
-    private function hasNewerVersion(IMSPciRegistry $registry): bool
-    {
-        $latestVersion = $registry->getLatestVersion(self::TYPE_IDENTIFIER)->getVersion();
-
-        return version_compare($latestVersion, self::VERSION_UP, '>');
+        throw new IrreversibleMigration(
+            'In order to undo this migration, please revert the client-side changes and run '
+            . RegisterPciFractionModelInteraction::class . '.'
+        );
     }
 }

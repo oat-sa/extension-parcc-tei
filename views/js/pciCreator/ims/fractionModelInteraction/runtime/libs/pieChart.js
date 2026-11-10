@@ -11,7 +11,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk Street, # 960789, Boston, MA 02196, USA.
  *
  * Copyright (c) 2014-2026 Parcc, Inc.
  */
@@ -95,13 +95,7 @@ define([
                 focusRing.toFront();
             },
             isActivationKey = function(event){
-                return event.key === 'Enter'
-                    || event.key === ' '
-                    || event.key === 'Space'
-                    || event.key === 'Spacebar'
-                    || event.code === 'Space'
-                    || event.keyCode === 13
-                    || event.keyCode === 32;
+                return event.key === 'Enter' || event.key === ' ';
             },
             clearPointerFocusSuppression = function(){
                 skipFocusRingForPointerFocus = false;
