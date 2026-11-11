@@ -11,9 +11,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk Street, # 960789, Boston, MA 02196, USA.
  *
- * Copyright (c) 2014-2017 Parcc, Inc.
+ * Copyright (c) 2014-2026 Parcc, Inc.
  */
 
 
@@ -45,6 +45,8 @@ define([
 
         var paper = this,
             chart = this.set(),
+            focusRing = null,
+            skipFocusRingForPointerFocus = false,
             padding = config.padding || 2,
             r = parseInt(config.radius),
             // read some stuff from config & reformat datas
@@ -69,6 +71,70 @@ define([
                     this.stop().attr({
                         'fill-opacity' : 1
                     });
+                });
+            },
+            clearFocusRing = function(){
+                if(focusRing){
+                    focusRing.remove();
+                    focusRing = null;
+                }
+            },
+            applyFocusRing = function(raphaelObject){
+                clearFocusRing();
+                focusRing = raphaelObject.clone();
+
+                focusRing.attr({
+                    fill : 'none',
+                    stroke : '#005fcc',
+                    'stroke-width' : 4,
+                    'stroke-linejoin' : 'round',
+                    cursor : 'default'
+                });
+                focusRing.node.setAttribute('pointer-events', 'none');
+                focusRing.node.setAttribute('aria-hidden', 'true');
+                focusRing.toFront();
+            },
+            isActivationKey = function(event){
+                return event.key === 'Enter' || event.key === ' ';
+            },
+            clearPointerFocusSuppression = function(){
+                skipFocusRingForPointerFocus = false;
+            },
+            shouldShowFocusRing = function(node){
+                if(skipFocusRingForPointerFocus){
+                    skipFocusRingForPointerFocus = false;
+                    return false;
+                }
+                return !node.matches || node.matches(':focus-visible');
+            },
+            makeInteractive = function(raphaelObject, index, selected){
+                var toggle = getClickCallback(index);
+
+                raphaelObject.node.setAttribute('tabindex', '0');
+                raphaelObject.node.setAttribute('role', 'checkbox');
+                raphaelObject.node.setAttribute('aria-label', `Pie slice ${index + 1} of ${selectedPartitions.length}`);
+                raphaelObject.node.setAttribute('aria-checked', selected ? 'true' : 'false');
+                raphaelObject.click(toggle);
+                raphaelObject.node.addEventListener('focus', function(){
+                    if(shouldShowFocusRing(raphaelObject.node)){
+                        applyFocusRing(raphaelObject);
+                    }
+                });
+                raphaelObject.node.addEventListener('blur', function(){
+                    clearFocusRing();
+                });
+                raphaelObject.node.addEventListener('pointerdown', function(){
+                    skipFocusRingForPointerFocus = true;
+                    clearFocusRing();
+                });
+                raphaelObject.node.addEventListener('pointerup', clearPointerFocusSuppression);
+                raphaelObject.node.addEventListener('pointercancel', clearPointerFocusSuppression);
+                raphaelObject.node.addEventListener('lostpointercapture', clearPointerFocusSuppression);
+                raphaelObject.node.addEventListener('keydown', function(event){
+                    if(isActivationKey(event)){
+                        event.preventDefault();
+                        toggle.call(raphaelObject);
+                    }
                 });
             };
 
@@ -120,12 +186,12 @@ define([
             chart.push(p);
 
             // Register events on the slice / sector
-            p.click(getClickCallback(j));
+            makeInteractive(p, j, selected);
         }
 
         function drawCircle(){
 
-            var c = paper.circle(cx, cy, r).attr(getStyle(false));
+            var c = paper.circle(cx, cy, r).attr(getStyle(selectedPartitions[0]));
 
             //add hover style
             setHoverStyle(c);
@@ -134,7 +200,7 @@ define([
             chart.push(c);
 
             // Register events on the slice / sector
-            c.click(getClickCallback(0));
+            makeInteractive(c, 0, selectedPartitions[0]);
         }
 
         function getClickCallback(j){
@@ -146,6 +212,7 @@ define([
                     this.attr(getStyle(true));
                     // update the internal state
                     selectedPartitions[j] = true;
+                    this.node.setAttribute('aria-checked', 'true');
                     $container.trigger('select_slice.pieChart', [selectedPartitions, getTotalSelected(selectedPartitions)]);
                 }else{
 
@@ -153,6 +220,7 @@ define([
                     this.attr(getStyle(false));
                     // update the internal state
                     selectedPartitions[j] = false;
+                    this.node.setAttribute('aria-checked', 'false');
                     $container.trigger('unselect_slice.pieChart', [selectedPartitions, getTotalSelected(selectedPartitions)]);
                 }
             }
