@@ -11,9 +11,9 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * Foundation, Inc., 31 Milk Street, # 960789, Boston, MA 02196, USA.
  *
- * Copyright (c) 2015-2017 Parcc, Inc.
+ * Copyright (c) 2015-2026 Parcc, Inc.
  */
 
 
@@ -31,6 +31,16 @@ define([
     var runner;
     var fixtureContainerId = 'item-container';
     var outsideContainerId = 'outside-container';
+
+    function onRunnerError(assert, done){
+        return function(error){
+            assert.ok(false, 'Runner error: ' + (error.message || error));
+            if(runner){
+                runner.clear();
+            }
+            done();
+        };
+    }
 
     //manually register the pci from its manifest
     pciTestProvider.addManifestPath(
@@ -58,6 +68,9 @@ define([
                 assert.equal($container.find('.qti-customInteraction .shape-panel').length, 1, 'the interaction contains the shape panel');
                 assert.equal($container.find('.qti-customInteraction .shape-controls button').length, 3, 'the interaction contains 3 controls');
                 assert.equal($container.find('.qti-customInteraction .shape-container svg').length, 1, 'the interaction contains the svg element');
+                assert.equal($container.find('.qti-customInteraction .shape-container [tabindex="0"]').length, 2, 'each partition is keyboard focusable');
+                assert.equal($container.find('.qti-customInteraction .shape-container [role="checkbox"]').length, 2, 'each partition exposes checkbox semantics');
+                assert.equal($container.find('.qti-customInteraction .shape-container [aria-checked="false"]').length, 2, 'each partition exposes its selected state');
 
                 runner.clear();
                 done();
@@ -92,18 +105,13 @@ define([
                 $more.click();
             })
             .on('statechange', function(state) {
-                // Verify the state update after clicking "more"
-                console.log('State changed:', state);
                 assert.ok(_.isArray(state.RESPONSE.selection), 'The state contains a well-formatted array');
                 assert.equal(_.filter(state.RESPONSE.selection).length, 0, 'No selected partition in the state');
                 assert.equal(state.RESPONSE.selection.length, 3, '3 partitions in the state after clicking "more"');
                 runner.clear();
                 done();
             })
-            .on('error', function(error) {
-                window.console.log(error);
-                done();
-            })
+            .on('error', onRunnerError(assert, done))
             .init()
             .render($container);
     });
@@ -145,10 +153,7 @@ define([
                 runner.clear();
                 done();
             })
-            .on('error', function(error) {
-                window.console.log(error);
-                done();
-            })
+            .on('error', onRunnerError(assert, done))
             .init()
             .render($container);
     });
@@ -197,10 +202,7 @@ define([
                 runner.clear();
                 done();
             })
-            .on('error', function(error) {
-                window.console.log(error);
-                done();
-            })
+            .on('error', onRunnerError(assert, done))
             .init()
             .render($container);
     });
@@ -246,10 +248,75 @@ define([
                 runner.clear();
                 done();
             })
-            .on('error', function(error) {
-                window.console.log(error);
-                done();
+            .on('error', onRunnerError(assert, done))
+            .init()
+            .render($container);
+    });
+
+    QUnit.test('select partitions using keyboard', function(assert){
+        const done = assert.async();
+        var $container = $('#' + fixtureContainerId),
+            stateChangeCount = 0;
+
+        // Update the sample to start with 4 partitions
+        var updatedFractionData = _.cloneDeep(itemData);
+        updatedFractionData.body.elements['interaction_imsportablecustominteraction_5a2a9c6d8d4ac661204810'].properties.partitionInit = 4;
+
+        runner = qtiItemRunner('qti', updatedFractionData)
+            .on('render', function(){
+                var $partitions = $('.fractionModelInteraction .shape-container svg > path', $container);
+
+                assert.equal($partitions.length, 4, 'There are 4 partitions in the canvas');
+                assert.equal($partitions.first().attr('aria-checked'), 'false', 'The first partition is initially unselected');
+
+                $partitions[0].dispatchEvent(new KeyboardEvent('keydown', {
+                    key: 'Enter',
+                    bubbles: true,
+                    cancelable: true
+                }));
             })
+            .on('statechange', function(state){
+                var $firstPartition = $('.fractionModelInteraction .shape-container svg > path', $container).first(),
+                    firstPartition = $firstPartition[0],
+                    responses;
+
+                stateChangeCount++;
+
+                if(stateChangeCount === 1){
+                    assert.equal(_.filter(state.RESPONSE.selection).length, 1, '1 partition is selected');
+                    assert.equal(state.RESPONSE.selection.length, 4, '4 partitions remain in the state');
+                    assert.equal($firstPartition.attr('aria-checked'), 'true', 'The selected partition exposes its updated state');
+
+                    firstPartition.dispatchEvent(new KeyboardEvent('keydown', {
+                        key: 'ArrowRight',
+                        bubbles: true,
+                        cancelable: true
+                    }));
+
+                    responses = runner.getResponses();
+                    assert.equal(stateChangeCount, 1, 'An unrelated key does not trigger a state change');
+                    assert.equal(responses.RESPONSE.base.string, '1/4', 'An unrelated key leaves the selection unchanged');
+                    assert.equal($firstPartition.attr('aria-checked'), 'true', 'An unrelated key leaves the exposed state unchanged');
+
+                    firstPartition.dispatchEvent(new KeyboardEvent('keydown', {
+                        key: 'Enter',
+                        bubbles: true,
+                        cancelable: true
+                    }));
+                }else if(stateChangeCount === 2){
+                    assert.equal(_.filter(state.RESPONSE.selection).length, 0, 'The selected partition is deselected with Enter');
+                    assert.equal(state.RESPONSE.selection.length, 4, '4 partitions remain after keyboard deselection');
+                    assert.equal($firstPartition.attr('aria-checked'), 'false', 'The deselected partition exposes its updated state');
+
+                    runner.clear();
+                    done();
+                }else{
+                    assert.ok(false, 'Unexpected state change count: ' + stateChangeCount);
+                    runner.clear();
+                    done();
+                }
+            })
+            .on('error', onRunnerError(assert, done))
             .init()
             .render($container);
     });
@@ -286,10 +353,7 @@ define([
                 runner.clear();
                 done();
             })
-            .on('error', function(error) {
-                window.console.log(error);
-                done();
-            })
+            .on('error', onRunnerError(assert, done))
             .init()
             .render($container, { state: state } );
     });
@@ -307,10 +371,7 @@ define([
             .on('render', function(){
                 done();
             })
-            .on('error', function(error) {
-                assert.ok(false, error);
-                done();
-            })
+            .on('error', onRunnerError(assert, done))
             .init()
             .render($container);
     });
