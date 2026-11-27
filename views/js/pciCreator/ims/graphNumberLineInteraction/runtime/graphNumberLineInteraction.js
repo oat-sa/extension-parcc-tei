@@ -119,6 +119,16 @@ define([
         ];
     }
 
+    /**
+     * Checks if the given state has been produced by getState()
+     *
+     * @param {Object} [state]
+     * @returns {Boolean}
+     */
+    function isSerializedState(state){
+        return _.isPlainObject(state) && (_.has(state, 'record') || _.has(state, 'base'));
+    }
+
     graphNumberLineInteraction = {
 
         /*********************************
@@ -138,14 +148,22 @@ define([
             var boundTo = config.boundTo;
             var responseIdentifier = Object.keys(boundTo)[0];
             var response = boundTo[responseIdentifier];
+            //one instance per interaction, as several number lines can be rendered in the same item
+            var instance = Object.create(graphNumberLineInteraction);
+
             //simply mapped to existing TAO PCI API
-            this.initialize(responseIdentifier, dom, config.properties);
-            this.setResponse(response);
-            this.setSerializedState(state);
+            instance.initialize(responseIdentifier, dom, config.properties);
+
+            //the serialized state is the response itself: restoring both would duplicate the intervals
+            if(isSerializedState(state)){
+                instance.setSerializedState(state);
+            }else{
+                instance.setResponse(response);
+            }
 
             //tell the rendering engine that I am ready
             if (typeof config.onready === 'function') {
-                config.onready(this, this.getState());
+                config.onready(instance, instance.getState());
             }
         },
 
